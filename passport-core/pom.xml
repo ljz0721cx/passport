@@ -13,4 +13,11 @@
     <artifactId>passport-core</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-start-oauth2</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
