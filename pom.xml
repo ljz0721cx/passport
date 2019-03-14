@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
 
     <properties>
-
+        <passport.version>1.0-SNAPSHOT</passport.version>
     </properties>
 
     <dependencyManagement>

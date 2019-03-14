@@ -6,10 +6,12 @@
         <artifactId>passport</artifactId>
         <groupId>com.ljz.passport</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>passport-core</artifactId>
+    <version>${passport.version}</version>
 
 
     <dependencies>
@@ -67,5 +69,4 @@
         </dependency>
         <!--工具类相关的包 end-->
     </dependencies>
-
 </project>
