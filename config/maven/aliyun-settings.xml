@@ -284,7 +284,7 @@ under the License.
 
 		</repositories>
 		<pluginRepositories>
-		<!--阿里云代理Spring 插件仓库-->
+		<!--阿里云代理Spring 插件仓库 如果插件找不到是由于没有添加该项-->
 		<pluginRepository>
 			<id>spring-plugin</id>
 			<name>spring-plugin</name>
