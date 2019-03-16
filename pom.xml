@@ -30,7 +30,6 @@
             </dependency>
             <dependency>
                 <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
-                <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>Finchley.RELEASE</version>
