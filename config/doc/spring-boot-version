@@ -1,0 +1,9 @@
+Spring IO Platform和spring boot版本和springcloud版本适配
+
+Spring IO Platform版本	spring boot 版本	spring cloud 版本
+Cairo-SR7	            2.0.8.RELEASE	    Finchley
+Cairo-SR6	            2.0.7.RELEASE	    Finchley
+Cairo-SR5	            2.0.6.RELEASE	    Finchley
+Brussels-SR16	        1.5.19.RELEASE	    Edgware
+Brussels-SR15	        1.5.18.RELEASE	    Edgware
+Brussels-SR7	        1.5.10.RELEASE	    Edgware
