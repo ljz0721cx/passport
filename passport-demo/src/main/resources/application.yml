@@ -11,8 +11,3 @@ spring:
 #设置分布式会话
   session:
     store-type: none
-
-#忽略安全拦截
-security:
-  basic:
-    enabled: true
