@@ -13,4 +13,12 @@
     <version>1.0-SNAPSHOT</version>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ljz.passport</groupId>
+            <artifactId>passport-core</artifactId>
+            <version>${passport.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
