@@ -1,7 +1,7 @@
 package com.ljz.demo.web.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.ljz.demo.dto.User;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +17,12 @@ import java.util.List;
 public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @JsonView(User.class)
     public List<User> list() {
-        List<User> users=new ArrayList<>();
+        List<User> users = new ArrayList<>();
         users.add(new User());
         return users;
     }
+
 
 }
