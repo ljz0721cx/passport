@@ -25,6 +25,13 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+   /* @Override
+    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+        configurer.registerCallableInterceptors();
+        configurer.registerDeferredResultInterceptors()
+
+    }*/
+
     @Bean
     public FilterRegistrationBean timeFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();

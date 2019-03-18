@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @author 李建珍
  * @date 2019/3/18
  */
-@Component
+//@Component
 public class QueueListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private MockQueue mockQueue;

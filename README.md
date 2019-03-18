@@ -1,6 +1,9 @@
 # passport
 单点登录相关的代码
 
+# 技术栈
+swagger 快速生成文档
+wireMock 快速伪造restfull服务
 
 # 依赖管理
 passport

@@ -30,8 +30,8 @@ public class TimeInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("TimeInterceptor preHandle start");
-        System.out.println(((HandlerMethod) handler).getMethod().getName());
-        System.out.println(((HandlerMethod) handler).getBean().getClass().getName());
+      /*  System.out.println(((HandlerMethod) handler).getMethod().getName());
+        System.out.println(((HandlerMethod) handler).getBean().getClass().getName());*/
         request.setAttribute("startTime", System.currentTimeMillis());
         //后续调用返回true
         return true;
