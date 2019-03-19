@@ -11,6 +11,7 @@
         <module>passport-browser</module>
         <module>passport-app</module>
         <module>passport-demo</module>
+        <module>passport-test</module>
     </modules>
     <packaging>pom</packaging>
 
