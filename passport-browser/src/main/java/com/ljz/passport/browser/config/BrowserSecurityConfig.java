@@ -1,5 +1,7 @@
-package com.ljz.passport.config;
+package com.ljz.passport.browser.config;
 
+import com.ljz.passport.core.properties.SecurityProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @date 2019/3/19
  */
 @Configuration
-public class BrowssrSecurityConfig extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private SecurityProperties securityProperties;
 
     /**
      * 选择通用的加密方式
@@ -38,12 +43,17 @@ public class BrowssrSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 //httpbasic认证方式
                 //http.httpBasic()
+                .loginPage("/login").successForwardUrl("/login/form")
                 .and()
                 //对请求授权
                 .authorizeRequests()
+                //授权配置
+                .antMatchers("/login",securityProperties.getBrowserProperties().getLoginPage()).permitAll()
                 //任何请求
                 .anyRequest()
                 //都需要身份认证
-                .authenticated();
+                .authenticated()
+                //crsf跨站请求
+                .and().csrf().disable();
     }
 }

@@ -1,4 +1,4 @@
-package com.ljz.passport.service;
+package com.ljz.passport.browser.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

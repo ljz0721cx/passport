@@ -8,6 +8,14 @@ spring:
     username: root
     password: Rfvnji_0890
 
-#设置分布式会话
+  #设置分布式会话
   session:
     store-type: none
+
+
+
+# 登录配置页面
+passport:
+  security:
+    browser:
+      login-page:/login.html
