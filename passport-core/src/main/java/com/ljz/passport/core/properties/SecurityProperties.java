@@ -10,11 +10,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SecurityProperties {
     private BrowserProperties browser = new BrowserProperties();
 
-    public BrowserProperties getBrowserProperties() {
+    public BrowserProperties getBrowser() {
         return browser;
     }
 
-    public void setBrowserProperties(BrowserProperties browser) {
+    public void setBrowser(BrowserProperties browser) {
         this.browser = browser;
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * web应用适配器的配置
@@ -20,6 +22,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
+    @Autowired
+    private AuthenticationSuccessHandler selfAuthenticationSuccessHandler;
+    @Autowired
+    private AuthenticationFailureHandler selfAuthenticationFailureHandler;
 
     /**
      * 选择通用的加密方式
@@ -43,12 +49,18 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 //httpbasic认证方式
                 //http.httpBasic()
-                .loginPage("/login").successForwardUrl("/login/form")
+                .loginPage("/login")
+                //登录提交的url
+                .loginProcessingUrl("/login/form")
+                //自定义登录成功认证
+                .successHandler(selfAuthenticationSuccessHandler)
+                //自定义登录失败的处理器
+                .failureHandler(selfAuthenticationFailureHandler)
                 .and()
                 //对请求授权
                 .authorizeRequests()
                 //授权配置
-                .antMatchers("/login",securityProperties.getBrowserProperties().getLoginPage()).permitAll()
+                .antMatchers("/login",securityProperties.getBrowser().getLoginPage()).permitAll()
                 //任何请求
                 .anyRequest()
                 //都需要身份认证

@@ -18,4 +18,5 @@ spring:
 passport:
   security:
     browser:
-      login-page:/login.html
+      login-page: /login.html
+      login-type: REDIRECT
