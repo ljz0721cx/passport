@@ -22,4 +22,6 @@ passport:
       login-type: REDIRECT
     code:
       image:
+        #配置需要验证码的url
         url: /login/form
+        length: 4

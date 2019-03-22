@@ -1,7 +1,7 @@
 package com.ljz.passport.core.properties;
 
 /**
- * 默认的图形验证码的配置
+ * 默认的图形验证码的拦截需要的配置
  *
  * @author 李建珍
  * @date 2019/3/22
@@ -10,11 +10,11 @@ public class ImageCodeProperties {
     /**
      * 验证码宽度
      */
-    private int width = 67;
+    private int width = 70;
     /**
      * 验证码图片高度
      */
-    private int height = 23;
+    private int height = 28;
     /**
      * 验证码长度
      */
