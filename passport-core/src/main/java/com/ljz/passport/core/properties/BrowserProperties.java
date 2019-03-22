@@ -5,9 +5,13 @@ package com.ljz.passport.core.properties;
  * @date 2019/3/20
  */
 public class BrowserProperties {
-    //默认的登录页面
+    /**
+     * 默认的登录页面
+     */
     private String loginPage = "/login.html";
-    //登录类型
+    /**
+     * 登录类型
+     */
     private LoginType loginType = LoginType.JSON;
 
     public String getLoginPage() {

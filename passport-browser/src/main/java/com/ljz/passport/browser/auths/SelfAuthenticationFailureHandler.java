@@ -1,6 +1,7 @@
 package com.ljz.passport.browser.auths;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ljz.passport.browser.support.SimpleResponse;
 import com.ljz.passport.core.properties.LoginType;
 import com.ljz.passport.core.properties.SecurityProperties;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class SelfAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }
