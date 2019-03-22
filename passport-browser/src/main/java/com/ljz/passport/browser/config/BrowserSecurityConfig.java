@@ -60,7 +60,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //httpbasic认证方式 用表单认证所有的访问都需要认证
                 //http.httpBasic()
-                .loginPage("/login")
+                .loginPage("/login.html")
                 .loginPage(securityProperties.getBrowser().getLoginPage())
                 //登录提交的url
                 .loginProcessingUrl("/login/form")
@@ -72,7 +72,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 //对请求授权
                 .authorizeRequests()
                 //授权配置登录返回和登录页面
-                .antMatchers("/login", "/validate/code", securityProperties.getBrowser().getLoginPage()).permitAll()
+                .antMatchers("/login", "/validate/imageCode", securityProperties.getBrowser().getLoginPage()).permitAll()
                 //任何请求
                 .anyRequest()
                 //都需要身份认证

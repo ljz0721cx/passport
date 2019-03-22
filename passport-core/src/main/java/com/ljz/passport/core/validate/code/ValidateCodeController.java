@@ -26,7 +26,7 @@ import java.util.Random;
 @RequestMapping("/validate")
 public class ValidateCodeController {
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-    public static final String SESSION_KEY = "SESSION_KEY_IMGE_CODE";
+    public static final String SESSION_IMAGE_CODE_KEY = "SESSION_KEY_IMAGE_CODE";
     @Autowired
     private SecurityProperties securityProperties;
 
@@ -37,10 +37,10 @@ public class ValidateCodeController {
      * @param response
      * @throws IOException
      */
-    @GetMapping("/code")
+    @GetMapping("/imageCode")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageCode imageCode = createImageCode(new ServletWebRequest(request));
-        sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY, imageCode);
+        sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_IMAGE_CODE_KEY, imageCode);
         ImageIO.write(imageCode.getImage(), "JPEG", response.getOutputStream());
     }
 

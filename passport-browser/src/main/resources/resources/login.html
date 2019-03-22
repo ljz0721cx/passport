@@ -3,109 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <style>
-        body{
-            background: #353f42;
-        }
-
-        *{
-            padding: 0;
-            margin: 0;
-        }
-
-        .main {
-            background: #FFFFFF;
-        }
-
-        .title {
-            width: 100%;
-            height: 40px;
-            line-height: 40px;
-        }
-
-        .title span {
-            font-size: 18px;
-            color: #353f42;
-        }
-
-        .title-msg {
-            width: 100%;
-            height: 64px;
-            line-height: 64px;
-        }
-
-        .title:hover{
-            cursor: default	;
-        }
-
-        .title-msg:hover{
-            cursor: default	;
-        }
-
-        .title-msg span {
-            font-size: 12px;
-            color: #707472;
-        }
-
-
-        .foor{
-            width: 100%;
-            height: auto;
-            color: #9b9c98;
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        .enter-btn:hover {
-            cursor:pointer;
-            background: #1db5c9;
-        }
-
-        .foor div:hover {
-            cursor:pointer;
-            color: #484847;
-            font-weight: 600;
-        }
-
-    </style>
 </head>
 <body>
-<div class="main">
-    <div class="title">
-        <span>密码登录</span>
-    </div>
-
-    <div class="title-msg">
-        <span>请输入登录账户和密码</span>
-    </div>
-
-    <form class="login-form" method="post" action="/login/form" novalidate>
-        <!--输入框-->
-        <div class="input-content">
-            <!--autoFocus-->
-            <div>
-                <input type="text" autocomplete="off"
-                       placeholder="用户名" name="username" required/>
-            </div>
-
-            <div>
-                <input type="password"
-                       autocomplete="off" placeholder="登录密码" name="password" required maxlength="32"/>
-            </div>
-
-            <div>
-                <input type="text" autocomplete="off"
-                       placeholder="验证码" name="username" required/>
-                <img src="/validate/code">
-            </div>
-        </div>
-
-        <!--登入按钮-->
-        <div>
-            <button type="submit" class="enter-btn">登录</button>
-        </div>
-    </form>
-
-</div>
+<h3>登录</h3>
+<form class="login-form" method="post" action="/login/form" novalidate>
+    <table>
+        <tr>
+            <td>用户名:</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>图形验证码:</td>
+            <td>
+                <input type="text" name="imageCode">
+                <img src="/validate/imageCode">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit">登录</button></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>

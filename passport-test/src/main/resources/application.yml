@@ -19,7 +19,7 @@ passport:
   security:
     browser:
       login-page: /login.html
-      login-type: JSON
+      login-type: REDIRECT
     code:
       image:
-        url: /user*
+        url: /login/form
