@@ -1,6 +1,8 @@
 package com.ljz.passport.core.validate.code;
 
 import com.ljz.passport.core.properties.SecurityProperties;
+import com.ljz.passport.core.validate.sms.DefaultSmsCodeSender;
+import com.ljz.passport.core.validate.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -29,4 +31,13 @@ public class ValidateCodeConfig {
         imageCodeGenerator.setSecurityProperties(securityProperties);
         return imageCodeGenerator;
     }
+
+
+    @Bean
+    @ConditionalOnMissingBean(SmsCodeSender.class)
+    public SmsCodeSender smsCodeSender() {
+        SmsCodeSender smsCodeSender = new DefaultSmsCodeSender();
+        return smsCodeSender;
+    }
+
 }

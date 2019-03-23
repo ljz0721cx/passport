@@ -1,5 +1,6 @@
 package com.ljz.passport.core.validate.code;
 
+import com.ljz.passport.core.validate.ValidateCode;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
@@ -15,6 +16,6 @@ public interface ValidateCodeGenerator {
      * @param request
      * @return
      */
-    ImageCode generate(ServletWebRequest request);
+    ValidateCode generate(ServletWebRequest request);
 
 }

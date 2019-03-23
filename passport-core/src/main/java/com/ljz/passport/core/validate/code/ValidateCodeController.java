@@ -1,8 +1,12 @@
 package com.ljz.passport.core.validate.code;
 
+import com.ljz.passport.core.validate.ValidateCode;
+import com.ljz.passport.core.validate.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +25,13 @@ import java.io.IOException;
 @RequestMapping("/validate")
 public class ValidateCodeController {
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-    public static final String SESSION_IMAGE_CODE_KEY = "SESSION_KEY_IMAGE_CODE";
+    public static final String SESSION_CODE_KEY = "SESSION_KEY__CODE";
 
     @Autowired
     private ValidateCodeGenerator imageCodeGenerator;
+
+    @Autowired
+    private SmsCodeSender smsCodeSender;
 
     /**
      * 请求验证码
@@ -35,8 +42,22 @@ public class ValidateCodeController {
      */
     @GetMapping("/imageCode")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ImageCode imageCode = imageCodeGenerator.generate(new ServletWebRequest(request));
-        sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_IMAGE_CODE_KEY, imageCode);
+        ImageCode imageCode = (ImageCode) imageCodeGenerator.generate(new ServletWebRequest(request));
+        sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_CODE_KEY, imageCode);
         ImageIO.write(imageCode.getImage(), "JPEG", response.getOutputStream());
+    }
+
+    /**
+     * 请求验证码
+     *
+     * @param request
+     * @throws IOException
+     */
+    @GetMapping("/smsCode")
+    public void createSmsCode(HttpServletRequest request) throws ServletRequestBindingException {
+        ValidateCode validateCode = imageCodeGenerator.generate(new ServletWebRequest(request));
+        sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_CODE_KEY, validateCode);
+        String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
+        smsCodeSender.send(mobile, validateCode.getCode());
     }
 }
