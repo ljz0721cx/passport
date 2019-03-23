@@ -5,8 +5,8 @@ package com.ljz.passport.core.properties;
  * @date 2019/3/22
  */
 public class ValidateCodeProperties {
-    private ImageCodeProperties image=new ImageCodeProperties();
-    private SmsCodeProperties sms=new SmsCodeProperties();
+    private ImageCodeProperties image = new ImageCodeProperties();
+    private SmsCodeProperties sms = new SmsCodeProperties();
 
     public ImageCodeProperties getImage() {
         return image;

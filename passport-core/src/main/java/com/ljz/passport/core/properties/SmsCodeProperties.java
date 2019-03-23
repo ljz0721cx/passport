@@ -20,6 +20,12 @@ public class SmsCodeProperties {
      */
     private String url;
 
+    public SmsCodeProperties() {
+    }
+
+    public SmsCodeProperties(int length) {
+        this.length = length;
+    }
 
     public int getLength() {
         return length;
