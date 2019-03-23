@@ -1,8 +1,9 @@
 package com.ljz.passport.core.validate.code;
 
 import com.ljz.passport.core.properties.SecurityProperties;
-import com.ljz.passport.core.validate.sms.DefaultSmsCodeSender;
-import com.ljz.passport.core.validate.sms.SmsCodeSender;
+import com.ljz.passport.core.validate.code.image.ImageCodeGenerator;
+import com.ljz.passport.core.validate.code.sms.DefaultSmsCodeSender;
+import com.ljz.passport.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

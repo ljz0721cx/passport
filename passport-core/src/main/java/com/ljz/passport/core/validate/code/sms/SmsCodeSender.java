@@ -1,4 +1,4 @@
-package com.ljz.passport.core.validate.sms;
+package com.ljz.passport.core.validate.code.sms;
 
 /**
  * 短信验证码发送接口

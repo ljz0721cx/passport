@@ -1,6 +1,5 @@
 package com.ljz.passport.core.validate.code;
 
-import com.ljz.passport.core.validate.ValidateCode;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**

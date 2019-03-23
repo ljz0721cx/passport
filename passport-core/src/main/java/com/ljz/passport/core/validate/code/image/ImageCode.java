@@ -1,6 +1,6 @@
-package com.ljz.passport.core.validate.code;
+package com.ljz.passport.core.validate.code.image;
 
-import com.ljz.passport.core.validate.ValidateCode;
+import com.ljz.passport.core.validate.code.ValidateCode;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
