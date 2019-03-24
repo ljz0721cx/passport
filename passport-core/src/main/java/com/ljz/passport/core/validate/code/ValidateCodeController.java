@@ -1,9 +1,6 @@
 package com.ljz.passport.core.validate.code;
 
-import com.ljz.passport.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,15 +19,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/validate")
 public class ValidateCodeController {
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
-    @Autowired
-    private ValidateCodeGenerator imageCodeGenerator;
-
-    @Autowired
-    private SmsCodeSender smsCodeSender;
-
-
     @Autowired
     private Map<String, ValidateCodeProcessor> validateCodeProcessors;
 
@@ -41,11 +29,11 @@ public class ValidateCodeController {
      * @param response
      * @throws IOException
      */
-    @GetMapping("/{vType}")
-    public void createCode(HttpServletRequest request,
-                           HttpServletResponse response,
-                           @PathVariable String vType) throws Exception {
-        validateCodeProcessors.get(vType + "ValidateCodeProcessor")
+    @GetMapping("/{createType}")
+    public void createValidateCode(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @PathVariable(name = "createType", required = true) String createType) throws Exception {
+        validateCodeProcessors.get(createType + "ValidateCodeProcessor")
                 .create(new ServletWebRequest(request, response));
     }
 }
