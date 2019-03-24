@@ -1,8 +1,8 @@
 package com.ljz.passport.core.validate.code.image;
 
 import com.ljz.passport.core.auth.SecurityConstants;
-import com.ljz.passport.core.validate.code.ValidateCodeType;
 import com.ljz.passport.core.validate.code.AbsctractValidateCodeProcessor;
+import com.ljz.passport.core.validate.code.ValidateCodeType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -13,7 +13,8 @@ import javax.imageio.ImageIO;
  * @date 2019/3/23
  */
 @Component("imageValidateCodeProcessor")
-public class ImageValidateCodeProcessor extends AbsctractValidateCodeProcessor<ImageCode> {
+public class ImageValidateCodeProcessor
+        extends AbsctractValidateCodeProcessor<ImageCode> {
     /**
      * 设置session的key
      */

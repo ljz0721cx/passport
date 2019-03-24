@@ -14,7 +14,8 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @date 2019/3/23
  */
 @Component("smsValidateCodeProcessor")
-public class SmsValidateCodeProcessor extends AbsctractValidateCodeProcessor<ValidateCode> {
+public class SmsValidateCodeProcessor
+        extends AbsctractValidateCodeProcessor<ValidateCode> {
     /**
      * 设置session的key
      */
@@ -32,7 +33,8 @@ public class SmsValidateCodeProcessor extends AbsctractValidateCodeProcessor<Val
     @Override
     protected void send(ServletWebRequest request, ValidateCode validateCode) throws Exception {
         String mobile = ServletRequestUtils
-                .getRequiredStringParameter(request.getRequest(), SecurityConstants.DEFAULT_MOBILE_AUTH_LOGIN_PARAMETER_NAME);
+                .getRequiredStringParameter(request.getRequest(),
+                        SecurityConstants.DEFAULT_MOBILE_AUTH_LOGIN_PARAMETER_NAME);
         smsCodeSender.send(mobile, validateCode.getCode());
     }
 

@@ -42,7 +42,10 @@ public class ValidateCodeController {
      * @throws IOException
      */
     @GetMapping("/{vType}")
-    public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String vType) throws Exception {
-        validateCodeProcessors.get(vType + "ValidateCodeProcessor").create(new ServletWebRequest(request, response));
+    public void createCode(HttpServletRequest request,
+                           HttpServletResponse response,
+                           @PathVariable String vType) throws Exception {
+        validateCodeProcessors.get(vType + "ValidateCodeProcessor")
+                .create(new ServletWebRequest(request, response));
     }
 }
