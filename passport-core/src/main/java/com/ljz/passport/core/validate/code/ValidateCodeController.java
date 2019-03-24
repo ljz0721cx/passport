@@ -23,7 +23,6 @@ import java.util.Map;
 @RequestMapping("/validate")
 public class ValidateCodeController {
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-    public static final String SESSION_CODE_KEY = "SESSION_KEY_FOR_CODE_IMAGE";
 
     @Autowired
     private ValidateCodeGenerator imageCodeGenerator;

@@ -2,14 +2,16 @@ package com.ljz.passport.core.validate.code;
 
 import com.ljz.passport.core.properties.SecurityProperties;
 import com.ljz.passport.core.validate.code.image.ImageCodeGenerator;
-import com.ljz.passport.core.validate.code.sms.DefaultSmsCodeSender;
 import com.ljz.passport.core.validate.code.sms.SmsCodeSender;
+import com.ljz.passport.core.validate.code.sms.SmsDefaultCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 验证码默认配置的Bean
+ *
  * @author 李建珍
  * @date 2019/3/22
  */
@@ -37,7 +39,7 @@ public class ValidateCodeConfig {
     @Bean
     @ConditionalOnMissingBean(SmsCodeSender.class)
     public SmsCodeSender smsCodeSender() {
-        SmsCodeSender smsCodeSender = new DefaultSmsCodeSender();
+        SmsCodeSender smsCodeSender = new SmsDefaultCodeSender();
         return smsCodeSender;
     }
 

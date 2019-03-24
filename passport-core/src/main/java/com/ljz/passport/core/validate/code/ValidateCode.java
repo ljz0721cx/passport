@@ -9,9 +9,13 @@ import java.time.LocalDateTime;
  * @date 2019/3/21
  */
 public class ValidateCode {
-    //验证码
+    /**
+     * 验证码
+     */
     private String code;
-    //过期时间
+    /**
+     * 过期时间
+     */
     private LocalDateTime expireTime;
 
     /**

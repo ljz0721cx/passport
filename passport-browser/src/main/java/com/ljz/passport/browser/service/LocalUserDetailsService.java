@@ -23,6 +23,7 @@ public class LocalUserDetailsService implements UserDetailsService {
 
     /**
      * 通过用户民查找用户信息
+     * FIXME 实现登陆授权校验需要编写的接口
      *
      * @param username
      * @return
