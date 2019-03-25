@@ -47,7 +47,7 @@
         <tr>
             <td>验证码:</td>
             <td><input type="text" name="smsCode"></td>
-            <td><a href="/validate/sms?mobile=18035198120">生成验证码</a></td>
+            <td><a href="javascript:void(0);" onclick="validateSms()">生成验证码</a></td>
         </tr>
         <tr>
             <td colspan="2">
@@ -57,4 +57,11 @@
     </table>
 </form>
 </body>
+<script>
+    function validateSms() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/validate/sms?mobile=18035198120', true);
+        xhr.send();
+    }
+</script>
 </html>
