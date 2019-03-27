@@ -18,7 +18,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     // ~ Static fields/initializers
     // =====================================================================================
 
-    public static final String LJZ_FORM_MOBILE_KEY = "mobile";
+    public static final String LJZ_FORM_MOBILE_KEY = SecurityConstants.DEFAULT_MOBILE_AUTH_LOGIN_PARAMETER_NAME;
 
     private String mobileParameter = LJZ_FORM_MOBILE_KEY;
     private boolean postOnly = true;
@@ -28,7 +28,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
     public SmsCodeAuthenticationFilter() {
         //匹配的登录请求
-        super(new AntPathRequestMatcher("/login/mobile", "POST"));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, "POST"));
     }
 
     // ~ Methods
