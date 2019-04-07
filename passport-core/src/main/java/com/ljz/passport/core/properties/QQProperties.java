@@ -4,7 +4,7 @@ package com.ljz.passport.core.properties;
  * @author 李建珍
  * @date 2019/4/2
  */
-public class QQProperties extends SocialProperties {
+public class QQProperties {
     private String appId;
     private String appSecret;
     /**

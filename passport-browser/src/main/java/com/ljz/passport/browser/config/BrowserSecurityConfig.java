@@ -38,7 +38,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
     @Autowired
-    private SpringSocialConfigurer socialSecutiryConfig;
+    private SpringSocialConfigurer socialSecurityConfig;
 
     /**
      * 选择通用的加密方式
@@ -79,7 +79,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 //拦截第三方登录
-                .apply(socialSecutiryConfig)
+                .apply(socialSecurityConfig)
                 .and()
                 .rememberMe()
                     .tokenRepository(persistenceTokenService())

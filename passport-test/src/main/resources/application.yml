@@ -27,5 +27,6 @@ passport:
         length: 4
     social:
       qq:
-        appId:
+        appId: qq
+        appSecret: sdfsadf
 
