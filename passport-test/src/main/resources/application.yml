@@ -25,3 +25,7 @@ passport:
         #配置需要验证码的url
         url: /login/form
         length: 4
+    social:
+      qq:
+        appId:
+

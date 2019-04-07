@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -36,7 +37,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-
+    @Autowired
+    private SpringSocialConfigurer socialSecutiryConfig;
 
     /**
      * 选择通用的加密方式
@@ -73,7 +75,11 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
         //和校验码关的配置
         http.apply(validateCodeSecurityConfig)
                 .and()
+                //拦截短信登录验证
                 .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                //拦截第三方登录
+                .apply(socialSecutiryConfig)
                 .and()
                 .rememberMe()
                     .tokenRepository(persistenceTokenService())
