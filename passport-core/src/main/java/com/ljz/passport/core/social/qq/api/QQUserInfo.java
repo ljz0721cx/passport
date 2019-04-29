@@ -1,6 +1,8 @@
 package com.ljz.passport.core.social.qq.api;
 
 /**
+ * qq用户信息:
+ * http://wiki.connect.qq.com/get_user_info
  * @author 李建珍
  * @date 2019/4/2
  */

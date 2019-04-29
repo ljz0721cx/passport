@@ -9,6 +9,14 @@ import org.springframework.social.connect.UserProfile;
 /**
  * qq适配器，用于将不同服务提供商的个性化用户信息映射到
  *
+ * ApiAdapter接口的实现类QQAdapter，
+ * ApiAdapter接口具有泛型参数，参数为Api接口的实现类的，
+ * ApiAdapter接口的setConnectionValues方法的参数就必须是Api接口，
+ * ApiAdapter接口的实现类重写setConnectionValues方法时，
+ * 就能调用Api接口实现类的从服务提供商获得用户信息方法，
+ * ApiAdapter接口的实现类重写setConnectionValues方法是将需要将用户信息封装到ConnectionValues接口中,
+ * 最终会被保存到数据库的UserConnection表中
+ *
  * @author 李建珍
  * @date 2019/4/2
  */
@@ -49,6 +57,8 @@ public class QQAdapter implements ApiAdapter<QQ> {
 
     /**
      * qq不需要
+     * 使用updateStatus向新浪微博服务提供商发送个人主页消息，
+     *     QQ服务提供商没有提供个人主页相关的属性和操作的方法，所以此处无须实现功能
      *
      * @param qq
      * @param s

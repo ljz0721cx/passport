@@ -1,0 +1,26 @@
+{
+  "groups": [
+    {
+      "sourceType": "com.ljz.passport.core.properties.SecurityProperties",
+      "name": "passport.activiti",
+      "type": "com.ljz.passport.core.properties.SecurityProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.ljz.passport.core.properties.SecurityProperties",
+      "name": "endpoints.activiti.enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.ljz.passport.core.properties.SecurityProperties",
+      "name": "endpoints.activiti.id",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.ljz.passport.core.properties.SecurityProperties",
+      "name": "endpoints.activiti.sensitive",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 package com.ljz.passport.core.social;
 
+import com.ljz.passport.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,8 @@ import javax.sql.DataSource;
 public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private SecurityProperties securityProperties;
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
@@ -50,6 +53,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
      */
     @Bean
     public SpringSocialConfigurer socialSecurityConfig() {
-        return new SpringSocialConfigurer();
+        //配置授权地址
+        String filterProcessUrl = securityProperties.getSocial().getFilterProcessesUrl();
+        MySpringSocialConfigurer mySpringSocialConfigurer = new MySpringSocialConfigurer(filterProcessUrl);
+        return mySpringSocialConfigurer;
     }
 }

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 80
 
 spring:
   datasource:
@@ -26,7 +26,13 @@ passport:
         url: /login/form
         length: 4
     social:
+      filterProcessesUrl: /auth
       qq:
-        appId: qq
-        appSecret: sdfsadf
+        appId: 101570353
+        appSecret: 38df55b81ab8a77733d876108a462c18
+        providerId: qq
+
+logging:
+  level:
+    root: debug
 
