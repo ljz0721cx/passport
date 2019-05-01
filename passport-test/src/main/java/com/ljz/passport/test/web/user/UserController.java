@@ -2,14 +2,13 @@ package com.ljz.passport.test.web.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ljz.passport.test.dto.User;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.social.connect.web.ProviderSignInUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +20,13 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
-     @GetMapping("/me")
-     public Object getMe() {
-         return SecurityContextHolder.getContext().getAuthentication();
-     }
+    @GetMapping("/me")
+    public Object getMe() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
     /*@GetMapping("/me")
     public Object getMe(Authentication authentication) {
         return authentication;
@@ -49,5 +50,22 @@ public class UserController {
     }
 
 
+    /**
+     * FIXME
+     * 注册用户
+     * providerSignInUtils用于第三方登录，不需要进行处理了。
+     *
+     * @param user
+     */
+    @PostMapping("/regist")
+    public void regist(User user, HttpServletRequest request) {
+        /**
+         * 获取到用户的ID，也可以是openId
+         */
+        String username = user.getUsername();
+        //将绑定的数据存入数据库中
+
+        //providerSignInUtils.doPostSignUp(username, new ServletWebRequest(request));
+    }
 
 }

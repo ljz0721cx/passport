@@ -1,8 +1,9 @@
 package com.ljz.passport.browser.config;
 
-import com.ljz.passport.core.auth.SecurityConstants;
 import com.ljz.passport.core.auth.AbstractSecurityConfig;
+import com.ljz.passport.core.auth.SecurityConstants;
 import com.ljz.passport.core.auth.SmsCodeAuthenticationSecurityConfig;
+import com.ljz.passport.core.authorize.AuthozieConfigManager;
 import com.ljz.passport.core.properties.SecurityProperties;
 import com.ljz.passport.core.validate.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
     @Autowired
     private SpringSocialConfigurer socialSecurityConfig;
+    @Autowired
+    private AuthozieConfigManager authorizeConfigManager;
 
     /**
      * 选择通用的加密方式
@@ -82,9 +85,9 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                 .apply(socialSecurityConfig)
                 .and()
                 .rememberMe()
-                    .tokenRepository(persistenceTokenService())
-                    .tokenValiditySeconds(securityProperties.getBrowser().getRemeberMeSeconds())
-                    .userDetailsService(localUserDetailsService)
+                .tokenRepository(persistenceTokenService())
+                .tokenValiditySeconds(securityProperties.getBrowser().getRemeberMeSeconds())
+                .userDetailsService(localUserDetailsService)
                 .and()
                 //对请求授权
                 .authorizeRequests()
@@ -92,7 +95,9 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                 .antMatchers(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM,
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                        securityProperties.getBrowser().getLoginPage())
+                        securityProperties.getBrowser().getLoginPage(),
+                        securityProperties.getBrowser().getSignUpPage(),
+                        "/user/regist")
                 .permitAll()
                 //任何请求
                 .anyRequest()
@@ -100,44 +105,5 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                 .authenticated()
                 //crsf跨站请求
                 .and().csrf().disable();
-
-
-
-                /*http
-                //在表单验证之前添加验证码过滤器
-                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                //httpbasic认证方式 用表单认证所有的访问都需要认证
-                //http.httpBasic()
-                .loginPage(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)
-                .loginPage(securityProperties.getBrowser().getLoginPage())
-                //登录提交的url
-                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM)
-                //自定义登录成功认证
-                .successHandler(selfAuthenticationSuccessHandler)
-                //自定义登录失败的处理器
-                .failureHandler(selfAuthenticationFailureHandler)
-
-
-                //配置记住我
-                .and()
-                .rememberMe()
-                .tokenRepository(persistenceTokenService())
-                .tokenValiditySeconds(securityProperties.getBrowser().getRemeberMeSeconds())
-                .userDetailsService(localUserDetailsService)
-
-                .and()
-                //对请求授权
-                .authorizeRequests()
-                //授权配置登录返回和登录页面
-                .antMatchers("/login", "/validate/*", securityProperties.getBrowser().getLoginPage()).permitAll()
-                //任何请求
-                .anyRequest()
-                //都需要身份认证
-                .authenticated()
-                //crsf跨站请求
-                .and().csrf().disable()
-                //短信验证拦截
-                .apply(smsCodeAuthenticationSecurityConfig);*/
     }
 }

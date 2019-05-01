@@ -6,9 +6,17 @@ package com.ljz.passport.core.properties;
  */
 public class BrowserProperties {
     /**
+     * 配置注册页面
+     */
+    private String signUpPage = "/sign.html";
+    /**
      * 默认的登录页面
      */
     private String loginPage = "/login.html";
+    /**
+     * 登出
+     */
+    private String loginOut = "/loginout";
     /**
      * 登录类型
      */
@@ -40,5 +48,22 @@ public class BrowserProperties {
 
     public void setRemeberMeSeconds(int remeberMeSeconds) {
         this.remeberMeSeconds = remeberMeSeconds;
+    }
+
+
+    public String getLoginOut() {
+        return loginOut;
+    }
+
+    public void setLoginOut(String loginOut) {
+        this.loginOut = loginOut;
+    }
+
+    public String getSignUpPage() {
+        return signUpPage;
+    }
+
+    public void setSignUpPage(String signUpPage) {
+        this.signUpPage = signUpPage;
     }
 }

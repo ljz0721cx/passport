@@ -3,6 +3,21 @@ package com.ljz.passport.core.social.qq.api;
 /**
  * qq用户信息:
  * http://wiki.connect.qq.com/get_user_info
+ * <p>
+ * ret": 0,
+ * "msg": "",
+ * "is_lost":0,
+ * "nickname": "Janle",
+ * "gender": "男",
+ * "province": "北京",
+ * "city": "海淀",
+ * "year": "1988",
+ * "constellation": "",
+ * "figureurl": "http:\/\/qzapp.qlogo.cn\/qzapp\/101570353\/54C7D3DD57CF3D5CDFC967D6530E6955\/30",
+ * "figureurl_1": "http:\/\/qzapp.qlogo.cn\/qzapp\/101570353\/54C7D3DD57CF3D5CDFC967D6530E6955\/50",
+ * "figureurl_2": "http:\/\/qzapp.qlogo.cn\/qzapp\/101570353\/54C7D3DD57CF3D5CDFC967D6530E6955\/100",
+ * "figureurl_qq_"
+ *
  * @author 李建珍
  * @date 2019/4/2
  */
@@ -16,9 +31,29 @@ public class QQUserInfo {
      */
     private String ret;
     /**
+     * 是否丢失
+     */
+    private int is_lost;
+    /**
      * 如果ret<0，会有相应的错误信息提示，返回数据全部用UTF-8编码。
      */
     private String msg;
+    /**
+     * 性别。 如果获取不到则默认返回"男"
+     */
+    private String gender;
+    /**
+     * 省份
+     */
+    private String province;
+    /**
+     * 城市
+     */
+    private String city;
+    /**
+     * 出生年份
+     */
+    private String year;
     /**
      * 用户在QQ空间的昵称。
      */
@@ -43,10 +78,6 @@ public class QQUserInfo {
      * 大小为100×100像素的QQ头像URL。需要注意，不是所有的用户都拥有QQ的100x100的头像，但40x40像素则是一定会有。
      */
     private String figureurl_qq_2;
-    /**
-     * 性别。 如果获取不到则默认返回"男"
-     */
-    private String gender;
     /**
      * 标识用户是否为黄钻用户（0：不是；1：是）。
      */
@@ -186,5 +217,37 @@ public class QQUserInfo {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public int getIs_lost() {
+        return is_lost;
+    }
+
+    public void setIs_lost(int is_lost) {
+        this.is_lost = is_lost;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 }

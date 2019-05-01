@@ -19,6 +19,7 @@ passport:
   security:
     browser:
       login-page: /login.html
+      sign-up-page: /singn.html
       login-type: REDIRECT
     code:
       image:
@@ -34,5 +35,5 @@ passport:
 
 logging:
   level:
-    root: debug
+    root: info
 

@@ -1,6 +1,8 @@
 package com.ljz.passport.core.social.qq.connect;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.social.SocialException;
 import org.springframework.social.oauth2.AccessGrant;
@@ -185,6 +187,8 @@ import java.nio.charset.Charset;
  * @date 2019/4/28
  */
 public class QqOAuth2Template extends OAuth2Template {
+    private Logger logger = LoggerFactory.getLogger(QqOAuth2Template.class);
+
     /**
      * @param clientId
      * @param clientSecret
@@ -203,6 +207,7 @@ public class QqOAuth2Template extends OAuth2Template {
          * 但是设置"client_id"和"client_secret"这两个参数的判断条件是useParametersForClientAuthentication值为true，
          * 所以需要我们在初始化OAuth2Template类的时候，将该类的useParametersForClientAuthentication属性初始化为true
          */
+        //看看代码org.springframework.social.oauth2.OAuth2Template.exchangeForAccess
         setUseParametersForClientAuthentication(true);
     }
 
@@ -218,6 +223,7 @@ public class QqOAuth2Template extends OAuth2Template {
     @Override
     protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
         String responseString = this.getRestTemplate().postForObject(accessTokenUrl, parameters, String.class);
+        logger.error("获取accessToke的响应：" + responseString);
         String errorDescription = StringUtils.substringBetween(responseString, "\"error_description\":\"", "\"}");
         if (StringUtils.isNotBlank(errorDescription)) {
             throw new SocialException(errorDescription) {
@@ -231,6 +237,11 @@ public class QqOAuth2Template extends OAuth2Template {
         return new AccessGrant(accessToken, null, refreshToken, expiresIn);
     }
 
+    /**
+     * 进行消息转换
+     *
+     * @return
+     */
     @Override
     protected RestTemplate createRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();

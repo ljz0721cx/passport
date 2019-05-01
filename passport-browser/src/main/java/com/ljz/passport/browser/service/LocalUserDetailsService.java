@@ -3,6 +3,7 @@ package com.ljz.passport.browser.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * TODO  每个平台需要实现的
+ *
  * @author 李建珍
  * @date 2019/3/19
  */
@@ -49,6 +51,7 @@ public class LocalUserDetailsService implements UserDetailsService, SocialUserDe
 
     /**
      * 通过用户id获得用户信息
+     *
      * @param userId
      * @return
      * @throws UsernameNotFoundException
@@ -56,9 +59,13 @@ public class LocalUserDetailsService implements UserDetailsService, SocialUserDe
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
         logger.info("第三方登录用户ID " + userId);
+        //这里的userId就是数据库中我们的唯一的值
         SocialUser socialUser =
                 new SocialUser("user", "123456", false,
-                        false, false, false, null);
+                        false, false, true,
+                        AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
+
         return socialUser;
     }
+
 }
