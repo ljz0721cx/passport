@@ -10,6 +10,10 @@ public class SocialProperties {
      */
     private QQProperties qq = new QQProperties();
     /**
+     * 微信的配置项
+     */
+    private WeixinProperties weixin = new WeixinProperties();
+    /**
      * 社交登录功能拦截的url
      */
     private String filterProcessesUrl = "/auth";
@@ -30,4 +34,12 @@ public class SocialProperties {
         this.filterProcessesUrl = filterProcessesUrl;
     }
 
+
+    public WeixinProperties getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(WeixinProperties weixin) {
+        this.weixin = weixin;
+    }
 }

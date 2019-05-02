@@ -1,15 +1,16 @@
 package com.ljz.passport.core.properties;
 
 /**
+ * 微信的配置信息
+ *
  * @author 李建珍
- * @date 2019/4/2
+ * @date 2019/5/1
  */
-public class QQProperties extends AbstractSocialProperties {
-
+public class WeixinProperties extends AbstractSocialProperties {
     /**
-     * 服务提供商的标识
+     * 服务提供商的标识,默认是weixin
      */
-    private String providerId = "qq";
+    private String providerId = "weixin";
 
     public String getProviderId() {
         return providerId;

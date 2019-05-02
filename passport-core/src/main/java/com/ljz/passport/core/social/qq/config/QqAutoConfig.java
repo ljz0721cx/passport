@@ -2,16 +2,14 @@ package com.ljz.passport.core.social.qq.config;
 
 import com.ljz.passport.core.properties.QQProperties;
 import com.ljz.passport.core.properties.SecurityProperties;
+import com.ljz.passport.core.social.SocialConfig;
+import com.ljz.passport.core.social.qq.api.QQ;
 import com.ljz.passport.core.social.qq.connect.QqOAuthConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
-import org.springframework.social.config.annotation.SocialConfigurerAdapter;
+import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.connect.ConnectionFactory;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.UsersConnectionRepository;
 
 /**
  * 当配置了appId的时候才启用
@@ -20,18 +18,14 @@ import org.springframework.social.connect.UsersConnectionRepository;
  * @date 2019/4/2
  */
 @Configuration
+@EnableSocial
 @ConditionalOnProperty(prefix = "passport.security.social.qq", name = "appId")
-public class QqAutoConfig extends SocialConfigurerAdapter {
+public class QqAutoConfig extends SocialConfig {
     @Autowired
     private SecurityProperties securityProperties;
 
     @Override
-    public void addConnectionFactories(ConnectionFactoryConfigurer configurer,
-                                       Environment environment) {
-        configurer.addConnectionFactory(createConnectionFactory());
-    }
-
-    public ConnectionFactory<?> createConnectionFactory() {
+    public ConnectionFactory<QQ> createConnectionFactory() {
         QQProperties qq = securityProperties.getSocial().getQq();
         return new QqOAuthConnectionFactory(qq.getProviderId(), qq.getAppId(), qq.getAppSecret());
     }
@@ -45,8 +39,5 @@ public class QqAutoConfig extends SocialConfigurerAdapter {
      * @param connectionFactoryLocator
      * @return
      */
-    @Override
-    public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        return null;
-    }
+
 }

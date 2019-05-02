@@ -61,9 +61,9 @@ public class BrowserSecurityController {
     }
 
 
-    @Autowired
+    /*@Autowired
     private ProviderSignInUtils providerSignInUtils;
-
+*/
     /**
      * 获取用户信息数据
      *
@@ -74,11 +74,11 @@ public class BrowserSecurityController {
     @GetMapping("/social/user")
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request, HttpServletResponse response) {
         SocialUserInfo socialUserInfo = new SocialUserInfo();
-        Connection connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+      /*  Connection connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
         socialUserInfo.setProviderId(connection.getKey().getProviderId());
         socialUserInfo.setNickname(connection.getDisplayName());
         socialUserInfo.setHeadImage(connection.getImageUrl());
-        socialUserInfo.setOpenId(connection.getKey().getProviderUserId());
+        socialUserInfo.setOpenId(connection.getKey().getProviderUserId());*/
         return socialUserInfo;
     }
 

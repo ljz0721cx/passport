@@ -20,8 +20,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private ProviderSignInUtils providerSignInUtils;
+   /* @Autowired
+    private ProviderSignInUtils providerSignInUtils;*/
 
     @GetMapping("/me")
     public Object getMe() {

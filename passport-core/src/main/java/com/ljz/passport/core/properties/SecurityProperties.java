@@ -37,7 +37,6 @@ public class SecurityProperties {
         this.code = code;
     }
 
-
     public SocialProperties getSocial() {
         return social;
     }

@@ -1,12 +1,13 @@
 package com.ljz.passport.core.social.qq.connect;
 
+import com.ljz.passport.core.social.qq.api.QQ;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 
 /**
  * @author 李建珍
  * @date 2019/4/2
  */
-public class QqOAuthConnectionFactory extends OAuth2ConnectionFactory {
+public class QqOAuthConnectionFactory extends OAuth2ConnectionFactory<QQ> {
 
 
     /**

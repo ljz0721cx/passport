@@ -4,10 +4,12 @@ import com.ljz.passport.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
-import org.springframework.social.config.annotation.EnableSocial;
+import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
+import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
@@ -18,12 +20,13 @@ import org.springframework.social.security.SpringSocialConfigurer;
 import javax.sql.DataSource;
 
 /**
+ * https://www.petrikainulainen.net/programming/spring-framework/adding-social-sign-in-to-a-spring-mvc-web-application-configuration/
+ *
  * @author 李建珍
  * @date 2019/4/2
  */
 @Configuration
-@EnableSocial
-public class SocialConfig extends SocialConfigurerAdapter {
+public abstract class SocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -46,6 +49,13 @@ public class SocialConfig extends SocialConfigurerAdapter {
         return jdbcUsersConnectionRepository;
     }
 
+    @Override
+    public void addConnectionFactories(ConnectionFactoryConfigurer configurer,
+                                       Environment environment) {
+        configurer.addConnectionFactory(createConnectionFactory());
+    }
+
+    public abstract ConnectionFactory<?> createConnectionFactory();
 
     @Override
     public UserIdSource getUserIdSource() {
@@ -69,14 +79,16 @@ public class SocialConfig extends SocialConfigurerAdapter {
         return mySpringSocialConfigurer;
     }
 
+
     /**
      * 登录处理的工具类
      *
      * @param connectionFactoryLocator
      * @return
      */
-    @Bean
+    // @Bean
     public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator) {
-        return new ProviderSignInUtils(connectionFactoryLocator, getUsersConnectionRepository(connectionFactoryLocator));
+        return new ProviderSignInUtils(connectionFactoryLocator,
+                getUsersConnectionRepository(connectionFactoryLocator));
     }
 }
