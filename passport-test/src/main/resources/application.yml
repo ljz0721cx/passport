@@ -39,5 +39,5 @@ passport:
 
 logging:
   level:
-    root: info
+    root: debug
 
