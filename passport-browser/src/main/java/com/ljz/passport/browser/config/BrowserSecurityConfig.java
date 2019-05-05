@@ -3,13 +3,13 @@ package com.ljz.passport.browser.config;
 import com.ljz.passport.core.auth.AbstractSecurityConfig;
 import com.ljz.passport.core.auth.SecurityConstants;
 import com.ljz.passport.core.auth.SmsCodeAuthenticationSecurityConfig;
-import com.ljz.passport.core.authorize.AuthozieConfigManager;
 import com.ljz.passport.core.properties.SecurityProperties;
 import com.ljz.passport.core.validate.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,8 +40,6 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
     @Autowired
     private SpringSocialConfigurer socialSecurityConfig;
-    @Autowired
-    private AuthozieConfigManager authorizeConfigManager;
 
     /**
      * 选择通用的加密方式
@@ -63,6 +61,12 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/*.html");
+        super.configure(web);
     }
 
     /**
@@ -105,5 +109,18 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                 .authenticated()
                 //crsf跨站请求
                 .and().csrf().disable();
+
+        http
+                .sessionManagement()
+                // session-management@invalid-session-url
+                .invalidSessionUrl(securityProperties.getBrowser().getSession().getSessionInvalidUrl())
+                // session-management@session-authentication-error-url
+                .sessionAuthenticationErrorUrl(securityProperties.getBrowser().getSession().getSessionAuthenticationErrorUrl())
+                //设置同时登陆的账户数
+                .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                // session-management/concurrency-control@error-if-maximum-exceeded
+                .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                // session-management/concurrency-control@expired-url 并发控制到对应的地址,提示已经有登录者
+                .expiredUrl(securityProperties.getBrowser().getSession().getExpiredUrl());
     }
 }

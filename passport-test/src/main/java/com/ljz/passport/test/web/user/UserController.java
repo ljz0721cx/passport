@@ -20,8 +20,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-   /* @Autowired
-    private ProviderSignInUtils providerSignInUtils;*/
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
     @GetMapping("/me")
     public Object getMe() {
@@ -64,8 +64,7 @@ public class UserController {
          */
         String username = user.getUsername();
         //将绑定的数据存入数据库中
-
-        //providerSignInUtils.doPostSignUp(username, new ServletWebRequest(request));
+        providerSignInUtils.doPostSignUp(username, new ServletWebRequest(request));
     }
 
 }

@@ -22,3 +22,8 @@ passport
      -----Aspect----对接口的切面  
      -----Controller----控制层实现  
      -----代码执行------具体代码执行
+     
+# Session管理
+session超时处理
+session并发控制
+集群session管理

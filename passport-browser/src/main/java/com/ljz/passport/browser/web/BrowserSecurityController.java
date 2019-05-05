@@ -37,6 +37,8 @@ public class BrowserSecurityController {
 
     @Autowired
     private SecurityProperties securityProperties;
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
     /**
      * 需要身份认证时候需要跳转到这里
@@ -60,10 +62,6 @@ public class BrowserSecurityController {
         return new SimpleResponse("访问的服务需要身份认证，跳转到登录页面");
     }
 
-
-    /*@Autowired
-    private ProviderSignInUtils providerSignInUtils;
-*/
     /**
      * 获取用户信息数据
      *
@@ -74,13 +72,12 @@ public class BrowserSecurityController {
     @GetMapping("/social/user")
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request, HttpServletResponse response) {
         SocialUserInfo socialUserInfo = new SocialUserInfo();
-      /*  Connection connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+        Connection connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
         socialUserInfo.setProviderId(connection.getKey().getProviderId());
         socialUserInfo.setNickname(connection.getDisplayName());
         socialUserInfo.setHeadImage(connection.getImageUrl());
-        socialUserInfo.setOpenId(connection.getKey().getProviderUserId());*/
+        socialUserInfo.setOpenId(connection.getKey().getProviderUserId());
         return socialUserInfo;
     }
-
 
 }
