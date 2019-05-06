@@ -16,7 +16,7 @@ public class BrowserProperties {
     /**
      * 登出
      */
-    private String loginOut = "/loginout";
+    private String logout = "/logout.html";
     /**
      * 登录类型
      */
@@ -55,12 +55,12 @@ public class BrowserProperties {
     }
 
 
-    public String getLoginOut() {
-        return loginOut;
+    public String getLogout() {
+        return logout;
     }
 
-    public void setLoginOut(String loginOut) {
-        this.loginOut = loginOut;
+    public void setLogout(String logout) {
+        this.logout = logout;
     }
 
     public String getSignUpPage() {

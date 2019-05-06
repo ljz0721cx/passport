@@ -97,7 +97,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         //获取请求的类型
         ValidateCodeType type = getValidateType(request);
         if (null != type) {
-            logger.info("请求校验中的类型为{}", type.name());
             try {
                 validateCodeProcessorHolder.findValidateCodeProcessor(type)
                         .validate(new ServletWebRequest(request, response));

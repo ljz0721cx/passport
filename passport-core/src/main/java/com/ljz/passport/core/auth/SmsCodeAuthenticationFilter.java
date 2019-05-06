@@ -108,7 +108,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         this.postOnly = postOnly;
     }
 
-    public final String getMobilearameter() {
+    public final String getMobileParameter() {
         return mobileParameter;
     }
 

@@ -1,6 +1,5 @@
 package com.ljz.passport.core.validate.code;
 
-import com.ljz.passport.core.auth.SecurityConstants;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +32,7 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
     public void create(ServletWebRequest request) throws Exception {
         //生成验证码
         V validateCode = generate(request);
-        //保存session和别的地方
+        //保存session到别的地方
         save(request, validateCode);
         //发送到浏览器和短信
         send(request, validateCode);
@@ -48,18 +47,18 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
     protected abstract void send(ServletWebRequest request, V validateCode) throws Exception;
 
     /**
-     * TODO 保存验证码到session中  回看
-     *
+     * 保存到session存储中
      * @param request
      * @param validateCode
      */
     private void save(ServletWebRequest request, V validateCode) {
+        ValidateCode v = (ValidateCode) validateCode;
+        ValidateCode code = new ValidateCode(v.getCode(), v.getExpireTime());
         /**
          * 拼接请求类型到sessionkey中
          */
         sessionStrategy
-                .setAttribute(request, SESSION_VALIDATE_CODE_KEY_PREFIX.concat(getProcessorType(request).toUpperCase()),
-                        validateCode);
+                .setAttribute(request, getSessionKey(), code);
     }
 
     /**
@@ -69,20 +68,32 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
      * @return
      */
     private V generate(ServletWebRequest request) {
-        String type = getProcessorType(request);
+        String type = getValidateCodeType().toString().toLowerCase();
         ValidateCodeGenerator validateCodeGenerator = validateCodeGenerators.get(type + "CodeGenerator");
+        if (validateCodeGenerator == null) {
+            throw new ValidateCodeException("验证码生成器" + type + "CodeGenerator" + "不存在");
+        }
         return (V) validateCodeGenerator.generate(request);
     }
 
     /**
-     * 获取请求路径的后半段
+     * 构建验证码放入session时的key
+     *
+     * @return
      */
-    private String getProcessorType(ServletWebRequest request) {
-        return StringUtils
-                .substringAfter(request.getRequest().getRequestURI(),
-                        "/validate/");
+    private String getSessionKey() {
+        return SESSION_VALIDATE_CODE_KEY_PREFIX + getValidateCodeType().toString().toUpperCase();
     }
 
+    /**
+     * 根据请求的url获取校验码的类型
+     *
+     * @return
+     */
+    private ValidateCodeType getValidateCodeType() {
+        String type = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
+        return ValidateCodeType.valueOf(type.toUpperCase());
+    }
 
     /**
      * 做验证码校验的封装
@@ -93,11 +104,11 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
     @Override
     public void validate(ServletWebRequest request) throws ValidateCodeException {
         //从请求中取出之前存入session的验证码
-        ValidateCode imageCode = (ValidateCode) sessionStrategy.getAttribute(request, getValidateSeesionKey());
+        ValidateCode imageCode = (ValidateCode) sessionStrategy.getAttribute(request, getValidateSessionKey());
         //获取form表单中用户输入的验证码
         String codeInRequest = null;
         try {
-            codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(),getValidateParameterName());
+            codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), getValidateParameterName());
         } catch (ServletRequestBindingException e) {
             logger.error("验证码参数解析有错，核对图片验证码参数是否绑定错误，绑定name为{}", getValidateParameterName());
         }
@@ -108,13 +119,13 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
             throw new ValidateCodeException("验证码不存在");
         }
         if (imageCode.isExpired()) {
-            sessionStrategy.removeAttribute(request, getValidateSeesionKey());
+            sessionStrategy.removeAttribute(request, getValidateSessionKey());
             throw new ValidateCodeException("验证码已过期");
         }
         if (!StringUtils.equals(imageCode.getCode(), codeInRequest)) {
             throw new ValidateCodeException("验证码不匹配");
         }
-        sessionStrategy.removeAttribute(request, getValidateSeesionKey());
+        sessionStrategy.removeAttribute(request, getValidateSessionKey());
     }
 
 
@@ -123,7 +134,7 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
      *
      * @return
      */
-    protected abstract String getValidateSeesionKey();
+    protected abstract String getValidateSessionKey();
 
     /**
      * 获取需要校验的请求字段的值

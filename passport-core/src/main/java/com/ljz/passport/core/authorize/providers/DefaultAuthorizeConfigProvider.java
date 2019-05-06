@@ -29,12 +29,12 @@ public class DefaultAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                 SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
                 securityProperties.getBrowser().getLoginPage(),
-                securityProperties.getBrowser().getLoginPage()
+                securityProperties.getBrowser().getSignUpPage()
         ).permitAll();
         // 退出成功处理，没有默认值，所以需要判定下
-        String signOutUrl = securityProperties.getBrowser().getLoginOut();
-        if (signOutUrl != null) {
-            http.antMatchers(signOutUrl).permitAll();
+        String logout = securityProperties.getBrowser().getLogout();
+        if (logout != null) {
+            http.antMatchers(logout).permitAll();
         }
     }
 }

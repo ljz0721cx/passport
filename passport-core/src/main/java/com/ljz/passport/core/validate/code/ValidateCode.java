@@ -1,5 +1,6 @@
 package com.ljz.passport.core.validate.code;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
  * @author 李建珍
  * @date 2019/3/21
  */
-public class ValidateCode {
+public class ValidateCode implements Serializable {
     /**
      * 验证码
      */

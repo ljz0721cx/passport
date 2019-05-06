@@ -39,7 +39,7 @@ public class SmsValidateCodeProcessor
     }
 
     @Override
-    protected String getValidateSeesionKey() {
+    protected String getValidateSessionKey() {
         return SMS_SESSION_VALIDATE_CODE_KEY;
     }
 

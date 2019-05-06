@@ -34,7 +34,7 @@ public class ImageValidateCodeProcessor
     }
 
     @Override
-    protected String getValidateSeesionKey() {
+    protected String getValidateSessionKey() {
         return IMAGE_SESSION_VALIDATE_CODE_KEY;
     }
 

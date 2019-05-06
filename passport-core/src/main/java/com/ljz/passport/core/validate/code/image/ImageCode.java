@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
  * @date 2019/3/21
  */
 public class ImageCode extends ValidateCode {
-    //验证码图片
+    /**
+     * 验证码图片
+     */
     private BufferedImage image;
 
     /**
