@@ -3,7 +3,9 @@ package com.ljz.passport.test.web.user;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ljz.passport.test.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -23,19 +25,18 @@ public class UserController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
-    @GetMapping("/me")
+    /*@GetMapping("/me")
     public Object getMe() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }*/
     /*@GetMapping("/me")
     public Object getMe(Authentication authentication) {
         return authentication;
     }*/
-    /*@GetMapping("/me")
+    @GetMapping("/me")
     public Object getMe(@AuthenticationPrincipal UserDetails userDetails) {
         return userDetails;
-    }*/
-
+    }
     /**
      * 查询用户的信息列表
      *
