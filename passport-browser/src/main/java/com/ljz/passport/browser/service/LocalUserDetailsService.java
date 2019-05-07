@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,14 +38,7 @@ public class LocalUserDetailsService implements UserDetailsService, SocialUserDe
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String password = passwordEncoder.encode("123456");
         logger.info("用户登录名 " + username + "；登录密码为 " + password);
-        return User.withUsername("user")
-                .password(password)
-                .accountExpired(false)
-                .accountLocked(false)
-                .disabled(false)
-                .credentialsExpired(false)
-                .roles("USER")
-                .build();
+        return buildUser(username);
     }
 
     /**
@@ -60,12 +52,23 @@ public class LocalUserDetailsService implements UserDetailsService, SocialUserDe
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
         logger.info("第三方登录用户ID " + userId);
         //这里的userId就是数据库中我们的唯一的值
-        SocialUser socialUser =
+    /*    SocialUser socialUser =
                 new SocialUser("user", "123456", false,
                         false, false, true,
                         AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
+*/
+        return buildUser(userId);
+    }
 
-        return socialUser;
+
+    private SocialUserDetails buildUser(String userId) {
+        // 根据用户名查找用户信息
+        //根据查找到的用户信息判断用户是否被冻结
+        String password = passwordEncoder.encode("123456");
+        logger.info("数据库密码是:" + password);
+        return new SocialUser(userId, password,
+                true, true, true, true,
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 
 }

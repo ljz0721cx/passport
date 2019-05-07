@@ -40,6 +40,7 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
             //{"authorities":[{"authority":"ROLE_USER"}],"details":{"remoteAddress":"0:0:0:0:0:0:0:1","sessionId":"71CD5B1076466BBFB76824D97636E204"},"authenticated":true,
             // "principal":{"password":null,"username":"user","authorities":[{"authority":"ROLE_USER"}],"accountNonExpired":true,"accountNonLocked":true,"credentialsNonExpired":true,"enabled":true},"credentials":null,"name":"user"}
             response.getWriter().write(objectMapper.writeValueAsString(authentication));
+            response.flushBuffer();
         } else {
             super.onAuthenticationSuccess(request, response, authentication);
         }

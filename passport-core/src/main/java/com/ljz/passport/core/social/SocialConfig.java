@@ -57,6 +57,11 @@ public abstract class SocialConfig extends SocialConfigurerAdapter {
         configurer.addConnectionFactory(createConnectionFactory());
     }
 
+    /**
+     * 创建对应的链接工厂
+     *
+     * @return
+     */
     public abstract ConnectionFactory<?> createConnectionFactory();
 
     @Override
@@ -74,6 +79,9 @@ public abstract class SocialConfig extends SocialConfigurerAdapter {
     @Bean
     public SpringSocialConfigurer socialSecurityConfig() {
         //配置授权地址
+        //1、认证失败跳转注册页面
+        // 跳转到signUp controller，从session中获取用户信息并通过生成的uuid保存到redis里面，然后跳转bind页面
+        // 前端绑定后发送用户信息到后台bind controller，1）保存到自己系统用户；2）保存一份userconnection表数据，Spring Social通过这里面表数据进行判断是否绑定
         String filterProcessUrl = securityProperties.getSocial().getFilterProcessesUrl();
         MySpringSocialConfigurer mySpringSocialConfigurer = new MySpringSocialConfigurer(filterProcessUrl);
         //配置自己的注册url
