@@ -1,7 +1,7 @@
 package com.ljz.passport.browser.web;
 
-import com.ljz.passport.browser.support.SimpleResponse;
-import com.ljz.passport.browser.support.SocialUserInfo;
+import com.ljz.passport.core.support.SimpleResponse;
+import com.ljz.passport.core.support.SocialUserInfo;
 import com.ljz.passport.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

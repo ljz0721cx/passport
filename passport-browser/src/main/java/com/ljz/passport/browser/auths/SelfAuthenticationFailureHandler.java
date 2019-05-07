@@ -1,7 +1,7 @@
 package com.ljz.passport.browser.auths;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ljz.passport.browser.support.SimpleResponse;
+import com.ljz.passport.core.support.SimpleResponse;
 import com.ljz.passport.core.properties.LoginType;
 import com.ljz.passport.core.properties.SecurityProperties;
 import org.slf4j.Logger;

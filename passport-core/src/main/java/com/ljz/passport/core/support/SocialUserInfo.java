@@ -1,4 +1,4 @@
-package com.ljz.passport.browser.support;
+package com.ljz.passport.core.support;
 
 /**
  * @author 李建珍

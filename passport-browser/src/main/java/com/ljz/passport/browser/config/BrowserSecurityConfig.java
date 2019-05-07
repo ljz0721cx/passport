@@ -1,7 +1,7 @@
 package com.ljz.passport.browser.config;
 
 import com.alibaba.fastjson.JSONArray;
-import com.ljz.passport.browser.support.SimpleResponse;
+import com.ljz.passport.core.support.SimpleResponse;
 import com.ljz.passport.core.auth.AbstractSecurityConfig;
 import com.ljz.passport.core.auth.SecurityConstants;
 import com.ljz.passport.core.auth.SmsCodeAuthenticationSecurityConfig;
