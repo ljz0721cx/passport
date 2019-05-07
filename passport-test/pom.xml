@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.ljz.passport</groupId>
-            <artifactId>passport-browser</artifactId>
+            <artifactId>passport-app</artifactId>
             <version>${passport.version}</version>
         </dependency>
         <dependency>
