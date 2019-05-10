@@ -47,16 +47,6 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     private SpringSocialConfigurer socialSecurityConfig;
 
     /**
-     * 选择通用的加密方式
-     *
-     * @return
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    /**
      * 将rememberme记录到数据库中
      *
      * @return
@@ -81,7 +71,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
      * @throws Exception
      */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+        protected void configure(HttpSecurity http) throws Exception {
         //密码登录认证配置
         applyPasswordAuthenticationConfig(http);
         //和校验码相关的配置

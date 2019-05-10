@@ -1,11 +1,8 @@
 package com.ljz.passport.app.auths;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ljz.passport.core.properties.LoginType;
-import com.ljz.passport.core.properties.SecurityProperties;
+import com.alibaba.fastjson.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -25,24 +22,11 @@ import java.io.IOException;
 @Component("selfAuthenticationSuccessHandler")
 public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private SecurityProperties securityProperties;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         logger.info("登录成功");
-
-        if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
-            response.setContentType("application/json;charset=utf-8");
-            //{"authorities":[{"authority":"ROLE_USER"}],"details":{"remoteAddress":"0:0:0:0:0:0:0:1","sessionId":"71CD5B1076466BBFB76824D97636E204"},"authenticated":true,
-            // "principal":{"password":null,"username":"user","authorities":[{"authority":"ROLE_USER"}],"accountNonExpired":true,"accountNonLocked":true,"credentialsNonExpired":true,"enabled":true},"credentials":null,"name":"user"}
-            response.getWriter().write(objectMapper.writeValueAsString(authentication));
-        } else {
-            super.onAuthenticationSuccess(request, response, authentication);
-        }
-
+        response.getWriter().write(JSONArray.toJSONString(authentication));
     }
 }

@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://bj-cdb-l9zvjuql.sql.tencentcdb.com:62750/user_center?useUnicode=true
+    username: root
+    password: Rfvnji_0890
+  redis:
+    password: redisDbs
+    database: 6
+    port: 6379
+    host: 140.143.122.180
+  #设置分布式会话
+  session:
+    store-type: REDIS
+    #单位是s，tomcat的session会转化为分，最小为1分钟，具体看 org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.configureSession
+    timeout: 10000
+
+
+# 登录配置页面
+passport:
+  security:
+    browser:
+      login-page: /login.html
+      sign-up-page: /singn.html
+      login-type: REDIRECT
+    code:
+      image:
+        #配置需要验证码的url
+        url: /login/form
+        length: 4
+
+security:
+  oauth2:
+    client:
+      client-id: janle
+      client-secret: janleSecret
+logging:
+  level:
+    root: debug
+

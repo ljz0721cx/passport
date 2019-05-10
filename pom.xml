@@ -12,6 +12,7 @@
         <module>passport-app</module>
         <module>passport-demo</module>
         <module>passport-test</module>
+        <module>passport-oauth</module>
     </modules>
     <packaging>pom</packaging>
 
