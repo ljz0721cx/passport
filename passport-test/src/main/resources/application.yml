@@ -39,8 +39,8 @@ passport:
         appSecret: 38df55b81ab8a77733d876108a462c18
         providerId: qq
       weixin:
-        appId: wx23aa2d7d2d048069
-        appSecret: 48e40d14b75be8bf7974b01833fd05d1
+        appId: wxab5dea732af2e72f
+        appSecret: b961d044fb0030bc24031c119f652202
         providerId: weixin
 
 logging:

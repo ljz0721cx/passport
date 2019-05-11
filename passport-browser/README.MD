@@ -36,5 +36,12 @@ SCryptPasswordEncoder 密码比较长
 
 
 
+- 第三方登录注意
+    微信授权回调域不能配置/之类的
+    www.clouds1000.com
+- qq本地调试
+    qq本地调试不能加https://
+
+
 
 
