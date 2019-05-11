@@ -12,7 +12,7 @@ passport
     -passport-core 核心安全包  
     -passport-demo 样例使用  
     -passport-test 安全登录项目
-    
+    -passport-oauth 基于oauth2的测试
 # 配置相关控制
  --------------------------
  顺序依次如下  
