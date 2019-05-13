@@ -1,11 +1,11 @@
 package com.ljz.passport.browser.config;
 
 import com.alibaba.fastjson.JSONArray;
-import com.ljz.passport.core.support.SimpleResponse;
 import com.ljz.passport.core.auth.AbstractSecurityConfig;
 import com.ljz.passport.core.auth.SecurityConstants;
 import com.ljz.passport.core.auth.SmsCodeAuthenticationSecurityConfig;
 import com.ljz.passport.core.properties.SecurityProperties;
+import com.ljz.passport.core.support.SimpleResponse;
 import com.ljz.passport.core.validate.ValidateCodeSecurityConfig;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -44,7 +42,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
     @Autowired
-    private SpringSocialConfigurer socialSecurityConfig;
+    private SpringSocialConfigurer springSocialConfigurer;
 
     /**
      * 将rememberme记录到数据库中
@@ -71,7 +69,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
      * @throws Exception
      */
     @Override
-        protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         //密码登录认证配置
         applyPasswordAuthenticationConfig(http);
         //和校验码相关的配置
@@ -81,7 +79,7 @@ public class BrowserSecurityConfig extends AbstractSecurityConfig {
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 //拦截第三方登录
-                .apply(socialSecurityConfig)
+                .apply(springSocialConfigurer)
                 .and()
                 .rememberMe()
                 .tokenRepository(persistenceTokenService())

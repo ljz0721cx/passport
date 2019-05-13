@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.ljz.passport</groupId>
-            <artifactId>passport-app</artifactId>
+            <artifactId>passport-browser</artifactId>
             <version>${passport.version}</version>
         </dependency>
         <dependency>
@@ -71,6 +71,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>passport-demo</finalName>
+        <finalName>passport-test</finalName>
     </build>
 </project>

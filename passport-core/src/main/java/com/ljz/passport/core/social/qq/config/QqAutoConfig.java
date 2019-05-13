@@ -2,7 +2,6 @@ package com.ljz.passport.core.social.qq.config;
 
 import com.ljz.passport.core.properties.QQProperties;
 import com.ljz.passport.core.properties.SecurityProperties;
-import com.ljz.passport.core.social.SocialConfig;
 import com.ljz.passport.core.social.qq.api.QQ;
 import com.ljz.passport.core.social.qq.connect.QqOAuthConnectionFactory;
 import com.ljz.passport.core.social.views.ConnectionView;
@@ -11,7 +10,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
+import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.web.servlet.View;
 
@@ -24,14 +26,19 @@ import org.springframework.web.servlet.View;
 @Configuration
 @EnableSocial
 @ConditionalOnProperty(prefix = "passport.security.social.qq", name = "appId")
-public class QqAutoConfig extends SocialConfig {
+public class QqAutoConfig extends SocialConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
-    @Override
     public ConnectionFactory<QQ> createConnectionFactory() {
         QQProperties qq = securityProperties.getSocial().getQq();
         return new QqOAuthConnectionFactory(qq.getProviderId(), qq.getAppId(), qq.getAppSecret());
+    }
+
+    @Override
+    public void addConnectionFactories(ConnectionFactoryConfigurer configurer,
+                                       Environment environment) {
+        configurer.addConnectionFactory(createConnectionFactory());
     }
 
     /**
@@ -43,8 +50,6 @@ public class QqAutoConfig extends SocialConfig {
      * @param connectionFactoryLocator
      * @return
      */
-
-
     /**
      * qq授权成功后绑定的视图
      * 如果有对应的bean指定，使用当前默认的配置

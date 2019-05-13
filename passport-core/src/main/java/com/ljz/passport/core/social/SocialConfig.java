@@ -4,12 +4,10 @@ import com.ljz.passport.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
-import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
+import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
-import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
@@ -28,7 +26,8 @@ import javax.sql.DataSource;
  * @date 2019/4/2
  */
 @Configuration
-public abstract class SocialConfig extends SocialConfigurerAdapter {
+@EnableSocial
+public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -51,18 +50,6 @@ public abstract class SocialConfig extends SocialConfigurerAdapter {
         return jdbcUsersConnectionRepository;
     }
 
-    @Override
-    public void addConnectionFactories(ConnectionFactoryConfigurer configurer,
-                                       Environment environment) {
-        configurer.addConnectionFactory(createConnectionFactory());
-    }
-
-    /**
-     * 创建对应的链接工厂
-     *
-     * @return
-     */
-    public abstract ConnectionFactory<?> createConnectionFactory();
 
     @Override
     public UserIdSource getUserIdSource() {
@@ -77,7 +64,7 @@ public abstract class SocialConfig extends SocialConfigurerAdapter {
      * @return
      */
     @Bean
-    public SpringSocialConfigurer socialSecurityConfig() {
+    public SpringSocialConfigurer springSocialConfigurer() {
         //配置授权地址
         //1、认证失败跳转注册页面
         // 跳转到signUp controller，从session中获取用户信息并通过生成的uuid保存到redis里面，然后跳转bind页面

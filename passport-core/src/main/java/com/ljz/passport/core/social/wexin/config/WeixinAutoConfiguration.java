@@ -2,7 +2,6 @@ package com.ljz.passport.core.social.wexin.config;
 
 import com.ljz.passport.core.properties.SecurityProperties;
 import com.ljz.passport.core.properties.WeixinProperties;
-import com.ljz.passport.core.social.SocialConfig;
 import com.ljz.passport.core.social.views.ConnectionView;
 import com.ljz.passport.core.social.wexin.api.Weixin;
 import com.ljz.passport.core.social.wexin.connect.WeixinOAuthConnectionFactory;
@@ -11,7 +10,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
+import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.web.servlet.View;
 
@@ -22,15 +24,20 @@ import org.springframework.web.servlet.View;
 @Configuration
 @EnableSocial
 @ConditionalOnProperty(prefix = "passport.security.social.weixin", name = "appId")
-public class WeixinAutoConfiguration extends SocialConfig {
+public class WeixinAutoConfiguration extends SocialConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
 
-    @Override
     public ConnectionFactory<Weixin> createConnectionFactory() {
         WeixinProperties weixin = securityProperties.getSocial().getWeixin();
         return new WeixinOAuthConnectionFactory(weixin.getProviderId(), weixin.getAppId(), weixin.getAppSecret());
+    }
+
+    @Override
+    public void addConnectionFactories(ConnectionFactoryConfigurer configurer,
+                                       Environment environment) {
+        configurer.addConnectionFactory(createConnectionFactory());
     }
 
     /**

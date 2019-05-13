@@ -18,6 +18,11 @@
             <version>${passport.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.ljz.passport</groupId>
+            <artifactId>passport-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
@@ -51,6 +56,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>passport-demo</finalName>
+        <finalName>passport-oauth</finalName>
     </build>
 </project>

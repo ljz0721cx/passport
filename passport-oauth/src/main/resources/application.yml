@@ -1,3 +1,5 @@
+server:
+  port: 80
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -11,9 +13,7 @@ spring:
     host: 140.143.122.180
   #设置分布式会话
   session:
-    store-type: REDIS
-    #单位是s，tomcat的session会转化为分，最小为1分钟，具体看 org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.configureSession
-    timeout: 10000
+    store-type: none
 
 
 # 登录配置页面
@@ -36,5 +36,5 @@ security:
       client-secret: janleSecret
 logging:
   level:
-    root: debug
+    root: info
 
