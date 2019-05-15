@@ -32,7 +32,7 @@ import java.util.Base64;
 @Component("selfAuthenticationSuccessHandler")
 public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    private String credentialsCharset = "UTF-8";
     @Autowired
     private ClientDetailsService clientDetailsService;
     @Autowired
@@ -41,6 +41,7 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
+        logger.info("登录成功");
         //获得属性值
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Basic ")) {
@@ -49,14 +50,17 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
         }
         //抽取并且解码请求头里的字符串
         String[] tokens = this.extractAndDecodeHeader(header, request);
+        //验证是否是有clientid和clientSecret
         assert tokens.length == 2;
         String clientId = tokens[0];
         String clientSecret = tokens[1];
         //通过clientId获取clientDetails
         ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
         if (clientDetails == null) {
+            logger.error("clientId：" + clientId + "对应的信息不存在");
             throw new UnapprovedClientAuthenticationException("授权信息不匹配" + clientId);
         } else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
+            logger.error("clientId：" + clientId + "对应的secret信息不存在");
             throw new UnapprovedClientAuthenticationException("授权信息不匹配" + clientSecret);
         }
         //map是存储authentication内属性的,因为我们这里自带authentication,所以传空map即可
@@ -69,11 +73,12 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
         //拿认证去获取令牌
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
         //将authentication这个对象转成json格式的字符串
-        response.getWriter().write(JSONArray.toJSONString(oAuth2Authentication));
+        response.getWriter().write(JSONArray.toJSONString(token));
     }
 
 
     /**
+     * 抽取解码clientId和clientSecret
      * Decodes the header into a username and password.
      *
      * @throws BadCredentialsException if the Basic header is not present or is not valid
@@ -82,7 +87,7 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
     private String[] extractAndDecodeHeader(String header, HttpServletRequest request)
             throws IOException {
 
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
+        byte[] base64Token = header.substring(6).getBytes(credentialsCharset);
         byte[] decoded;
         try {
             decoded = Base64.getDecoder().decode(base64Token);
@@ -90,13 +95,14 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
             throw new BadCredentialsException(
                     "Failed to decode basic authentication token");
         }
-        String token = new String(decoded, "UTF-8");
+        String token = new String(decoded, credentialsCharset);
         //以：拆分字符
         int delim = token.indexOf(":");
 
         if (delim == -1) {
             throw new BadCredentialsException("Invalid basic authentication token");
         }
+        //获得用户名和密码
         return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
 }

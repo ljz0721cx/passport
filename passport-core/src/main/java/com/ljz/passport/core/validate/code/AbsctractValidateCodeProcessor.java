@@ -1,11 +1,10 @@
 package com.ljz.passport.core.validate.code;
 
+import com.ljz.passport.core.validate.code.repository.ValidateCodeRepository;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -18,10 +17,11 @@ import java.util.Map;
  * @author 李建珍
  * @date 2019/3/23
  */
-public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeProcessor {
+public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> implements ValidateCodeProcessor {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+    @Autowired
+    private ValidateCodeRepository validateCodeRepository;
     /**
      * 将依赖中所有的generator获得
      */
@@ -48,17 +48,16 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
 
     /**
      * 保存到session存储中
+     *
      * @param request
      * @param validateCode
      */
     private void save(ServletWebRequest request, V validateCode) {
-        ValidateCode v = (ValidateCode) validateCode;
-        ValidateCode code = new ValidateCode(v.getCode(), v.getExpireTime());
+        ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
         /**
          * 拼接请求类型到sessionkey中
          */
-        sessionStrategy
-                .setAttribute(request, getSessionKey(), code);
+        validateCodeRepository.setValidateCode(request, getSessionKey(), code);
     }
 
     /**
@@ -104,7 +103,7 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
     @Override
     public void validate(ServletWebRequest request) throws ValidateCodeException {
         //从请求中取出之前存入session的验证码
-        ValidateCode imageCode = (ValidateCode) sessionStrategy.getAttribute(request, getValidateSessionKey());
+        ValidateCode imageCode = (ValidateCode) validateCodeRepository.getValidateCode(request, getValidateSessionKey());
         //获取form表单中用户输入的验证码
         String codeInRequest = null;
         try {
@@ -119,13 +118,13 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
             throw new ValidateCodeException("验证码不存在");
         }
         if (imageCode.isExpired()) {
-            sessionStrategy.removeAttribute(request, getValidateSessionKey());
+            validateCodeRepository.removeValidateCode(request, getValidateSessionKey());
             throw new ValidateCodeException("验证码已过期");
         }
         if (!StringUtils.equals(imageCode.getCode(), codeInRequest)) {
             throw new ValidateCodeException("验证码不匹配");
         }
-        sessionStrategy.removeAttribute(request, getValidateSessionKey());
+        validateCodeRepository.removeValidateCode(request, getValidateSessionKey());
     }
 
 
