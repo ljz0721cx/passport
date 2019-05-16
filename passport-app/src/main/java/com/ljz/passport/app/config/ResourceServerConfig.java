@@ -45,14 +45,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM)
                 .successHandler(selfAuthenticationSuccessHandler)
                 .failureHandler(selfAuthenticationFailureHandler);
-        //和校验码相关的配置
-        http.apply(validateCodeSecurityConfig)
-                .and()
-                //拦截短信登录验证
-                .apply(smsCodeAuthenticationSecurityConfig)
-                .and()
-                //拦截第三方登录
-                .apply(springSocialConfigurer);
         //对请求授权
         http.authorizeRequests()
                 //授权配置登录返回和登录页面
@@ -70,6 +62,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authenticated()
                 //crsf跨站请求
                 .and().csrf().disable();
+
+        //和校验码相关的配置
+        http.apply(validateCodeSecurityConfig)
+                .and()
+                //拦截短信登录验证
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                //拦截第三方登录
+                .apply(springSocialConfigurer);
     }
 
 

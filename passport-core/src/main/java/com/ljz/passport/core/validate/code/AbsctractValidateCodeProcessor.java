@@ -54,9 +54,6 @@ public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> imp
      */
     private void save(ServletWebRequest request, V validateCode) {
         ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
-        /**
-         * 拼接请求类型到sessionkey中
-         */
         validateCodeRepository.setValidateCode(request, getSessionKey(), code);
     }
 

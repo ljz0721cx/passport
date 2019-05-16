@@ -1,5 +1,6 @@
-package com.ljz.passport.core.validate.code;
+package com.ljz.passport.core.validate;
 
+import com.ljz.passport.core.validate.code.ValidateCodeProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

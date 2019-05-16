@@ -20,9 +20,7 @@ spring:
 passport:
   security:
     browser:
-      login-page: /login.html
-      sign-up-page: /singn.html
-      login-type: REDIRECT
+      login-type: JSON
     code:
       image:
         #配置需要验证码的url

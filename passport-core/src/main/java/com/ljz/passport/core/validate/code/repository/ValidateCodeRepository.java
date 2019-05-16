@@ -1,8 +1,6 @@
 package com.ljz.passport.core.validate.code.repository;
 
 import com.ljz.passport.core.validate.code.ValidateCode;
-import com.ljz.passport.core.validate.code.ValidateCodeType;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
@@ -19,10 +17,10 @@ public interface ValidateCodeRepository {
      * 保存验证码
      *
      * @param request
-     * @param code
+     * @param validateCode
      * @param validateKey
      */
-    void setValidateCode(ServletWebRequest request, String validateKey, ValidateCode code);
+    void setValidateCode(ServletWebRequest request, String validateKey, ValidateCode validateCode);
 
     /**
      * 获取验证码

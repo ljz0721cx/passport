@@ -2,12 +2,12 @@ package com.ljz.passport.app.auths;
 
 import com.alibaba.fastjson.JSONArray;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
@@ -37,6 +37,9 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
     private ClientDetailsService clientDetailsService;
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -59,7 +62,7 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
         if (clientDetails == null) {
             logger.error("clientId：" + clientId + "对应的信息不存在");
             throw new UnapprovedClientAuthenticationException("授权信息不匹配" + clientId);
-        } else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
+        } else if (!passwordEncoder.matches(clientSecret, clientDetails.getClientSecret())) {
             logger.error("clientId：" + clientId + "对应的secret信息不存在");
             throw new UnapprovedClientAuthenticationException("授权信息不匹配" + clientSecret);
         }
@@ -73,7 +76,9 @@ public class SelfAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
         //拿认证去获取令牌
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
         //将authentication这个对象转成json格式的字符串
+        response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSONArray.toJSONString(token));
+        response.flushBuffer();
     }
 
 
