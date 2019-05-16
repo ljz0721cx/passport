@@ -1,7 +1,6 @@
 package com.ljz.passport.core.social;
 
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
+import com.ljz.passport.core.social.processor.SocialAuthenticationFilterProcessor;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -13,6 +12,8 @@ import org.springframework.social.security.SpringSocialConfigurer;
  */
 public class MySpringSocialConfigurer extends SpringSocialConfigurer {
     private String filterProcessUrl;
+
+    private SocialAuthenticationFilterProcessor socialOauthAuthenticationFilterPostProcessor;
 
     public MySpringSocialConfigurer(String filterProcessUrl) {
         this.filterProcessUrl = filterProcessUrl;
@@ -26,7 +27,15 @@ public class MySpringSocialConfigurer extends SpringSocialConfigurer {
          */
         SocialAuthenticationFilter filter = (SocialAuthenticationFilter) super.postProcess(object);
         filter.setFilterProcessesUrl(filterProcessUrl);
+        //如果是app之类的需要区别设置
+        if (null != socialOauthAuthenticationFilterPostProcessor) {
+            socialOauthAuthenticationFilterPostProcessor.process(filter);
+        }
         return (T) filter;
     }
 
+
+    public void setSocialOauthAuthenticationFilterPostProcessor(SocialAuthenticationFilterProcessor socialOauthAuthenticationFilterPostProcessor) {
+        this.socialOauthAuthenticationFilterPostProcessor = socialOauthAuthenticationFilterPostProcessor;
+    }
 }

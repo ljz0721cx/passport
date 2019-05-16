@@ -1,6 +1,7 @@
 package com.ljz.passport.core.social;
 
 import com.ljz.passport.core.properties.SecurityProperties;
+import com.ljz.passport.core.social.processor.SocialAuthenticationFilterProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,8 +33,10 @@ public class SocialConfig extends SocialConfigurerAdapter {
     private DataSource dataSource;
     @Autowired
     private SecurityProperties securityProperties;
-    @Autowired
+    @Autowired(required = false)
     private SocialConnectionSignUp socialConnectionSignUp;
+    @Autowired(required = false)
+    private SocialAuthenticationFilterProcessor socialAuthenticationFilterProcessor;
 
 
     @Override
@@ -73,6 +76,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
         MySpringSocialConfigurer mySpringSocialConfigurer = new MySpringSocialConfigurer(filterProcessUrl);
         //配置自己的注册url
         mySpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpPage());
+        mySpringSocialConfigurer.setSocialOauthAuthenticationFilterPostProcessor(socialAuthenticationFilterProcessor);
         return mySpringSocialConfigurer;
     }
 

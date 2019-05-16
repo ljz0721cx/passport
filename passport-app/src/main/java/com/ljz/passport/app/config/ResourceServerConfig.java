@@ -2,6 +2,7 @@ package com.ljz.passport.app.config;
 
 import com.ljz.passport.app.auths.SelfAuthenticationFailureHandler;
 import com.ljz.passport.app.auths.SelfAuthenticationSuccessHandler;
+import com.ljz.passport.app.social.OpenIdAuthenticationSecurityConfig;
 import com.ljz.passport.core.auth.SecurityConstants;
 import com.ljz.passport.core.auth.SmsCodeAuthenticationSecurityConfig;
 import com.ljz.passport.core.properties.SecurityProperties;
@@ -37,6 +38,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
+    @Autowired
+    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -70,7 +73,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 //拦截第三方登录
-                .apply(springSocialConfigurer);
+                .apply(springSocialConfigurer)
+                .and()
+                .apply(openIdAuthenticationSecurityConfig);
     }
 
 

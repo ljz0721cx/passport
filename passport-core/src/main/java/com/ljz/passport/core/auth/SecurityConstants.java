@@ -43,4 +43,18 @@ public interface SecurityConstants {
      */
     String DEFAULT_MOBILE_AUTH_LOGIN_PARAMETER_NAME = "mobile";
 
+
+    /**
+     * 默认的OPENID登录请求处理url
+     */
+    String DEFAULT_LOGIN_PROCESSING_URL_OPENID = "/login/openid";
+    /**
+     * 对应的openid参数名
+     */
+    String DEFAULT_PARAMETER_NAME_OPENID = "openId";
+    /**
+     * 供应商的参数名providerId
+     */
+    String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
+
 }
