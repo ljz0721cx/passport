@@ -25,6 +25,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
     @Autowired
     private DataSource dataSource;
+
     /**
      * 避免出现
      * error="invalid_request", error_description="At least one redirect_uri must be registered with the client."
@@ -38,7 +39,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()                  // 使用in-memory存储客户端信息
                 .withClient("janle")
                 .secret("{bcrypt}" + new BCryptPasswordEncoder().encode("janleSecret"))
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
+                //出去的令牌的有效时间
+                .accessTokenValiditySeconds(7200)
+                .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all")
                 .authorities("oauth2")
                 .redirectUris("http://www.clouds1000.com");
