@@ -1,5 +1,6 @@
 package com.ljz.passport.app.validate;
 
+import com.ljz.passport.core.auth.SecurityConstants;
 import com.ljz.passport.core.validate.code.ValidateCode;
 import com.ljz.passport.core.validate.code.ValidateCodeException;
 import com.ljz.passport.core.validate.code.repository.ValidateCodeRepository;
@@ -46,10 +47,10 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
     }
 
     private String buildKey(ServletWebRequest request, String type) {
-        String deviceId = request.getHeader("deviceId");
+        String deviceId = request.getHeader(SecurityConstants.DEFAULT_PARAMETER_DEVICEID);
         if (StringUtils.isBlank(deviceId)) {
             throw new ValidateCodeException("请在请求头中携带deviceId参数");
         }
-        return "code:" + type.toLowerCase() + ":" + deviceId;
+        return "code:" + type.toLowerCase() + ":" + SecurityConstants.DEFAULT_PARAMETER_DEVICEID;
     }
 }

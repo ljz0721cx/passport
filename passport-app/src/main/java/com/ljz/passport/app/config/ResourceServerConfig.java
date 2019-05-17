@@ -57,7 +57,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         securityProperties.getBrowser().getLoginPage(),
                         securityProperties.getBrowser().getSignUpPage(),
                         securityProperties.getBrowser().getLogout(),
-                        "/user/regist")
+                        "/user/regist", "/social/signUp")
                 .permitAll()
                 //任何请求
                 .anyRequest()

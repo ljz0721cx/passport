@@ -56,5 +56,9 @@ public interface SecurityConstants {
      * 供应商的参数名providerId
      */
     String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
+    /**
+     * 设备ID
+     */
+    String DEFAULT_PARAMETER_DEVICEID = "deviceId";
 
 }
