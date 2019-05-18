@@ -63,6 +63,8 @@ public class SocialConfig extends SocialConfigurerAdapter {
      * 默认配置类，进行组件的组装
      * 配置spring social的config
      * 包括了过滤器SocialAuthenticationFilter 添加到security过滤链中
+     * 在APP使用时候看 @link com.ljz.passport.app.social.processor.SocialOauthAuthenticationFilterPostProcessor
+     *
      *
      * @return
      */
@@ -74,7 +76,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
         // 前端绑定后发送用户信息到后台bind controller，1）保存到自己系统用户；2）保存一份userconnection表数据，Spring Social通过这里面表数据进行判断是否绑定
         String filterProcessUrl = securityProperties.getSocial().getFilterProcessesUrl();
         MySpringSocialConfigurer mySpringSocialConfigurer = new MySpringSocialConfigurer(filterProcessUrl);
-        //配置自己的注册url
+        //配置自己的注册url @link com.ljz.passport.app.social.config.SpringSocialBeanPostProcessor
         mySpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpPage());
         mySpringSocialConfigurer.setSocialOauthAuthenticationFilterPostProcessor(socialAuthenticationFilterProcessor);
         return mySpringSocialConfigurer;

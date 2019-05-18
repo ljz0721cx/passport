@@ -3,6 +3,10 @@ package com.ljz.passport.oauth.web;
 import com.ljz.passport.app.social.OauthSignUpUtils;
 import com.ljz.passport.oauth.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +25,10 @@ public class UserController {
     @Autowired
     private OauthSignUpUtils oauthSignUpUtils;
 
+    @GetMapping("/me")
+    public Authentication getMe(Authentication user, HttpServletRequest request) {
+        return user;
+    }
 
     /**
      * FIXME
