@@ -1,11 +1,15 @@
 package com.ljz.passport.oauth.web;
 
 import com.ljz.passport.app.social.OauthSignUpUtils;
+import com.ljz.passport.core.properties.SecurityProperties;
 import com.ljz.passport.oauth.dto.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author 李建珍
@@ -22,13 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
 
+    Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private OauthSignUpUtils oauthSignUpUtils;
-
-    @GetMapping("/me")
-    public Authentication getMe(Authentication user, HttpServletRequest request) {
-        return user;
-    }
+    @Autowired
+    private SecurityProperties securityProperties;
 
     /**
      * FIXME
@@ -47,4 +50,19 @@ public class UserController {
         oauthSignUpUtils.doPostSignUp(new ServletWebRequest(request), username);
     }
 
+
+    @GetMapping("/me")
+    public Authentication getMe(Authentication user, HttpServletRequest request) {
+        String headr = request.getHeader("Authorization");
+        String token = StringUtils.substringAfterLast(headr, "bearer");
+        Claims claims = null;
+        try {
+            claims = Jwts.parser().setSigningKey(securityProperties.getOauth2().getJwtSigningKey().getBytes("UTF-8")).parseClaimsJws(token).getBody();
+            String username = (String) claims.get("user_name");
+            logger.info("获得的该用户信息" + username);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }

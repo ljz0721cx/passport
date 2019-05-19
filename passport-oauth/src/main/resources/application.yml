@@ -13,7 +13,7 @@ spring:
     host: 140.143.122.180
   #设置分布式会话
   session:
-    store-type: none
+    store-type: redis
 
 
 # 登录配置页面
@@ -26,12 +26,9 @@ passport:
         #配置需要验证码的url
         url: /login/form
         length: 4
+    oauth2:
+      jwtSigningKey: janle
 
-security:
-  oauth2:
-    client:
-      client-id: janle
-      client-secret: janleSecret
 logging:
   level:
     root: info

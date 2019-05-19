@@ -10,7 +10,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 授权服务
@@ -25,6 +31,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenStore tokenStore;
+    @Autowired(required = false)
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    @Autowired
+    private TokenEnhancer jwtTokenEnhancer;
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -44,12 +54,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret("{bcrypt}" + new BCryptPasswordEncoder().encode("janleSecret"))
                 //出去的令牌的有效时间
                 .accessTokenValiditySeconds(7200)
+                .refreshTokenValiditySeconds(2678400)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all")
                 .authorities("oauth2")
                 .redirectUris("http://www.clouds1000.com");
     }
 
+    /**
+     * 配置认证
+     *
+     * @param endpoints
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         /**
@@ -59,6 +76,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
+        if (null != jwtAccessTokenConverter && null != jwtTokenEnhancer) {
+            TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+            //通过TokenEnhancerChain增强器链将jwtAccessTokenConverter(转换成jwt)和jwtTokenEnhancer(往里面加内容加信息)连起来
+            List<TokenEnhancer> enhancers = new ArrayList<>();
+            enhancers.add(jwtTokenEnhancer);
+            enhancers.add(jwtAccessTokenConverter);
+            enhancerChain.setTokenEnhancers(enhancers);
+
+            endpoints
+                    //用enhancerChain来配置endpoints这个端点
+                    .tokenEnhancer(enhancerChain)
+                    .accessTokenConverter(jwtAccessTokenConverter);
+        }
         super.configure(endpoints);
     }
 
@@ -69,42 +99,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //允许表单认证  这段代码在授权码模式下会导致无法根据code　获取token　
         security.allowFormAuthenticationForClients();
     }
-
-/*
-    @Bean
-    public TokenStore tokenStore() {
-        //基于jwt实现令牌（Access Token）
-        return new JwtTokenStore(accessTokenConverter());
-    }
-
-
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter() {
-            *//**
-     * 自定义一些token返回的信息
-     * @param accessToken
-     * @param authentication
-     * @return
-     *//*
-            @Override
-            public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-                String grantType = authentication.getOAuth2Request().getGrantType();
-                //只有如下两种模式才能获取到当前用户信息
-                if ("authorization_code".equals(grantType) || "password".equals(grantType)) {
-                    String userName = authentication.getUserAuthentication().getName();
-                    // 自定义一些token 信息 会在获取token返回结果中展示出来
-                    final Map<String, Object> additionalInformation = new HashMap<>();
-                    additionalInformation.put("user_name", userName);
-                    ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
-                }
-                OAuth2AccessToken token = super.enhance(accessToken, authentication);
-                return token;
-            }
-        };
-        converter.setSigningKey("bcrypt");
-        return converter;
-    }*/
 
 
 }

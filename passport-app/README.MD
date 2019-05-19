@@ -29,6 +29,8 @@ reflush_token
 5.把授权码发送给服务器，
 6.服务器申请令牌
 7.发放令牌
+8.令牌签名
+
 
 
 
@@ -42,3 +44,6 @@ UsersConnectionRepository
 
 - 资源服务器
     - 过滤器链OAuth2AuthenticationProcessingFilter 
+    
+### 使用JWT替换默认的token信息
+

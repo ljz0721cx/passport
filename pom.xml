@@ -28,6 +28,12 @@
                 <version>Cairo-SR7</version>
                 <type>pom</type>
                 <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.security.oauth</groupId>
+                        <artifactId>spring-security-oauth2</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
@@ -36,6 +42,12 @@
                 <version>Finchley.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!--覆盖原来的2.2.3的版本 在使用redis的token时候需要升级到2.3.3.RELEASE之上-->
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>2.3.5.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
