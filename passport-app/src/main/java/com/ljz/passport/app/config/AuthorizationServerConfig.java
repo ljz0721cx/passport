@@ -95,8 +95,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        //isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
-        //security.tokenKeyAccess("isAuthenticated()");
+        //如果需要拿tokenkey时候需要验证身份isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
+        security.tokenKeyAccess("isAuthenticated()");
         //允许表单认证  这段代码在授权码模式下会导致无法根据code　获取token　
         security.allowFormAuthenticationForClients();
     }
