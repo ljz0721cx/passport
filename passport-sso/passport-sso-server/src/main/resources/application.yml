@@ -1,0 +1,22 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://bj-cdb-l9zvjuql.sql.tencentcdb.com:62750/user_center?useUnicode=true
+    username: root
+    password: Rfvnji_0890
+  redis:
+    password: redisDbs
+    database: 6
+    port: 6379
+    host: 140.143.122.180
+  #设置分布式会话
+  session:
+    store-type: redis
+
+logging:
+  level:
+    root: info
+

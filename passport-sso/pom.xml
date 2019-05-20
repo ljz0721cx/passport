@@ -17,29 +17,16 @@
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>
-                <version>Cairo-SR7</version>
+                <version>Brussels-SR4</version>
                 <type>pom</type>
                 <scope>import</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.security.oauth</groupId>
-                        <artifactId>spring-security-oauth2</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
-                <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.RELEASE</version>
+                <version>Dalston.SR2</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <!--覆盖原来的2.2.3的版本 在使用redis的token时候需要升级到2.3.3.RELEASE之上-->
-            <dependency>
-                <groupId>org.springframework.security.oauth</groupId>
-                <artifactId>spring-security-oauth2</artifactId>
-                <version>2.3.5.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

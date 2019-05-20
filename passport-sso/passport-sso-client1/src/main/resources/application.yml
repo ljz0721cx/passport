@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /client1
+
+security:
+  oauth2:
+    client:
+      id: janle
+      client-secret: janleSecret
+      user-authorization-uri: http://www.clouds1000.com/oauth/authorize
+      access-token-uri: http://www.clouds1000.com/oauth/token
+    resource:
+      jwk:
+        #需要携带client
+        key-set-uri: http://www.clouds1000.com/oauth/token_key
+passport:
+  security:
+    oauth2: jwt
+
+logging:
+  level:
+    root: info
+
