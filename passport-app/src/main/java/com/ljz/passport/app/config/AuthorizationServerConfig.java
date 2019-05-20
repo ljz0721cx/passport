@@ -52,8 +52,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()                  // 使用in-memory存储客户端信息
                 .withClient("janle")
                 .secret("{bcrypt}" + new BCryptPasswordEncoder().encode("janleSecret"))
-                //出去的令牌的有效时间
+                //出去的token令牌的有效时间
                 .accessTokenValiditySeconds(7200)
+                //token刷新失效时间设置 一个月
                 .refreshTokenValiditySeconds(2678400)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all")
