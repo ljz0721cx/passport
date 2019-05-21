@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //TODO 将核心包迁移过来
         http.formLogin()
                 .and()
                 .authorizeRequests()
