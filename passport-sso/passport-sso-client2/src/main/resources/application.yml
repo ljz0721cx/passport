@@ -1,22 +1,21 @@
 server:
   port: 8081
-  servlet:
-    context-path: /client2
 
 security:
   oauth2:
     client:
-      id: janle1
+      client-id: janle1
       client-secret: janleSecret
       user-authorization-uri: http://www.clouds1000.com/oauth/authorize
       access-token-uri: http://www.clouds1000.com/oauth/token
     resource:
-      jwk:
+      jwt:
         #需要携带client
-        key-set-uri: http://www.clouds1000.com/oauth/token_key
+        key-uri: http://www.clouds1000.com/oauth/token_key
 passport:
   security:
-    oauth2:jwt
+    oauth2:
+      tokenStore: jwt
 
 logging:
   level:

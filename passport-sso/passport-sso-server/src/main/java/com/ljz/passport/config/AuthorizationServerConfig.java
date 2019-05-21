@@ -1,7 +1,8 @@
-package com.ljz.sso.server.config;
+package com.ljz.passport.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -20,6 +21,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.allowFormAuthenticationForClients();
         security.tokenKeyAccess("isAuthenticated()");
     }
 
@@ -27,22 +29,30 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("janle")
-                .secret("janleSecret")
+                .secret( new BCryptPasswordEncoder().encode("janleSecret"))
                 //使用授权码和refresh_token
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+                .redirectUris("http://www.clouds1000.com:8080/login")
+                .authorities("oauth2")
+                .autoApprove(true)
                 .scopes("all")
                 .and()
                 .withClient("janle1")
-                .secret("janleSecret")
+                .secret(new BCryptPasswordEncoder().encode("janleSecret"))
                 //使用授权码和refresh_token
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+                .redirectUris("http://www.clouds1000.com:8081/login")
+                .authorities("oauth2")
+                .autoApprove(true)
                 .scopes("all");
 
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(jwtTokenStore()).accessTokenConverter(jwtAccessTokenConverter());
+        endpoints
+                .tokenStore(jwtTokenStore())
+                .accessTokenConverter(jwtAccessTokenConverter());
     }
 
     @Bean
