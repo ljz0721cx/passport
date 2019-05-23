@@ -31,6 +31,7 @@ public class SecurityCoreConfig {
      * @return
      */
     @Bean
+    @ConditionalOnMissingBean(name = "passwordEncoder")
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }

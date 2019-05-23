@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.3.RELEASE</version>
+        <groupId>com.ljz.passport</groupId>
+        <artifactId>passport-sso</artifactId>
+        <version>1.0-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,6 +14,11 @@
     <artifactId>passport-sso-server</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.ljz.passport</groupId>
+            <artifactId>passport-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!--安全相关相关的框架包-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -50,6 +55,14 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.56</version>
         </dependency>
-    </dependencies>
 
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
