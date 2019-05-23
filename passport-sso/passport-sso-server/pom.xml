@@ -6,7 +6,6 @@
         <groupId>com.ljz.passport</groupId>
         <artifactId>passport-sso</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <version>1.0-SNAPSHOT</version>
