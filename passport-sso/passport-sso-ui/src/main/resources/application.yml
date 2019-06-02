@@ -1,13 +1,11 @@
 server:
   port: 8080
 
-spring:
-  thymeleaf:
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-    mode: HTML5
-    encoding: UTF-8
+
+
+logging:
+  level:
+    root: info
 
 security:
   oauth2:
@@ -17,6 +15,7 @@ security:
       user-authorization-uri: http://www.clouds1000.com/oauth/authorize
       access-token-uri: http://www.clouds1000.com/oauth/token
       scope: all
+      registered-redirect-uri: http://client.clouds1000.com:8080/passport
     resource:
       token-info-uri: http://www.clouds1000.com/oauth/check_token
       user-info-uri: http://www.clouds1000.com/user
@@ -24,10 +23,3 @@ security:
         #需要携带client
         key-uri: http://www.clouds1000.com/oauth/token_key
         key-value: janle
-
-
-
-logging:
-  level:
-    root: debug
-

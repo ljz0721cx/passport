@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import javax.sql.DataSource;
+
 /**
  * 加载顺序比WebSecurityConfig高
  *
@@ -25,6 +27,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -34,13 +38,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        //clients.jdbc(dataSource);
         //TODO 接入数据库或者客户端
         clients.inMemory()
                 .withClient("janle")
                 .secret(passwordEncoder.encode("janleSecret"))
                 //使用授权码和refresh_token
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .redirectUris("http://www.clouds1000.com:8080/login")
+                .redirectUris("http://client.clouds1000.com:8080/code","http://api.clouds1000.com:8080/login")
                 .authorities("oauth2")
                 .autoApprove(true)
                 .scopes("all")
@@ -49,7 +54,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode("janleSecret"))
                 //使用授权码和refresh_token
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .redirectUris("http://www.clouds1000.com:8081/login")
+                .redirectUris("http://client.clouds1000.com:8081/login","http://client.clouds1000.com:8081/code")
                 .authorities("oauth2")
                 .autoApprove(true)
                 .scopes("all");

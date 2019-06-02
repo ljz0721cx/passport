@@ -58,8 +58,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .refreshTokenValiditySeconds(2678400)
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("all")
+                .autoApprove(true)
                 .authorities("oauth2")
-                .redirectUris("http://www.clouds1000.com");
+                .redirectUris("http://client.clouds1000.com")
+        .and() .withClient("janle1")
+                .secret("{bcrypt}" + new BCryptPasswordEncoder().encode("janleSecret"))
+                //出去的token令牌的有效时间
+                .accessTokenValiditySeconds(7200)
+                //token刷新失效时间设置 一个月
+                .refreshTokenValiditySeconds(2678400)
+                .authorizedGrantTypes("password", "refresh_token")
+                .scopes("all")
+                .autoApprove(true)
+                .authorities("oauth2")
+                .redirectUris("http://client1.clouds1000.com");;
     }
 
     /**

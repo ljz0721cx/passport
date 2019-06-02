@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跳转待转页面</title>
+</head>
+<body>
+
+<form id="form" action="/login"></form>
+<script>
+    var xmlhttp
+
+    function getRandomStr(len) {
+        var result = []
+        for (var i = 0; i < len; i++) {
+            var ranNum = Math.ceil(Math.random() * 25) // 生成一个0到25的数字
+            // 大写字母'A'的ASCII是65,A~Z的ASCII码就是65 + 0~25;然后调用String.fromCharCode()传入ASCII值返回相应的字符并push进数组里
+            result.push(String.fromCharCode(65 + ranNum))
+        }
+        return result.join('')
+    }
+
+    function loadXMLDoc(url, stateChange) {
+        xmlhttp = null
+        if (window.XMLHttpRequest) { // code for all new browsers
+            xmlhttp = new XMLHttpRequest()
+        } else if (window.ActiveXObject) { // code for IE5 and IE6
+            xmlhttp = new window.ActiveXObject('Microsoft.XMLHTTP')
+        }
+        if (xmlhttp != null) {
+            xmlhttp.onreadystatechange = stateChange
+            xmlhttp.open('GET', url, true)
+            xmlhttp.send(null)
+        } else {
+            alert('Your browser does not support XMLHTTP.')
+        }
+    }
+
+    function stateChange1() {
+        if (xmlhttp.readyState === 4) { // 4 = "loaded"
+            if (xmlhttp.status === 200) { // 200 = OK
+                var data = JSON.parse(decodeURI(xmlhttp.responseText))
+                console.log(data);
+                if (data && data.details && data.details.tokenValue) {
+                    location.href = 'http://client.clouds1000.com/code?load=' + xmlhttp.responseText
+                } else {
+                    document.getElementById('form').submit()
+                }
+            } else {
+
+            }
+        }
+    }
+
+    window.onload = function () {
+        console.log("start");
+        loadXMLDoc('/auth/token', stateChange1)
+        console.log("end");
+    }
+</script>
+</body>
+</html>

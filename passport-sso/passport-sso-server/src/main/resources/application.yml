@@ -16,6 +16,12 @@ spring:
   session:
     store-type: redis
 
+passport:
+  security:
+    browser:
+      login-type: JSON
+
+
 logging:
   level:
     root: info
