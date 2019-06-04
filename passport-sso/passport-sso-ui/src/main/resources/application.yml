@@ -15,7 +15,7 @@ security:
       user-authorization-uri: http://www.clouds1000.com/oauth/authorize
       access-token-uri: http://www.clouds1000.com/oauth/token
       scope: all
-      registered-redirect-uri: http://client.clouds1000.com:8080/passport
+      registered-redirect-uri: http://client.clouds1000.com:8080/code
     resource:
       token-info-uri: http://www.clouds1000.com/oauth/check_token
       user-info-uri: http://www.clouds1000.com/user

@@ -37,8 +37,7 @@ public class TokenMapper {
                 .append("&redirect_uri=").append(URLEncoder.encode(oauthSecurityConfig.getRegistRedirectUri()));
         String resp = HttpUtil.post("http://www.clouds1000.com/oauth/token?", sb.toString());
         //通过Code码获取信息
-        OauthToken oauthToken = null;
-        JSON.parseObject(resp, OauthToken.class);
+        OauthToken oauthToken = JSON.parseObject(resp, OauthToken.class);
         return oauthToken;
     }
 
