@@ -23,8 +23,10 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
     @Override
     public ImageCode generate(ServletWebRequest request) {
         // 先从请求中取,可以自定义设置宽度 设置图片宽度和高度
-        int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width", securityProperties.getCode().getImage().getWidth());
-        int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height", securityProperties.getCode().getImage().getHeight());
+        int width = ServletRequestUtils.getIntParameter(request.getRequest(),
+                "width", securityProperties.getCode().getImage().getWidth());
+        int height = ServletRequestUtils.getIntParameter(request.getRequest(),
+                "height", securityProperties.getCode().getImage().getHeight());
         int length = securityProperties.getCode().getImage().getLength();
         // 干扰线条数
         int lines = 10;

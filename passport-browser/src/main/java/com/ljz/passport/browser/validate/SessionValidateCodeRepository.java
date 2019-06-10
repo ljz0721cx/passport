@@ -2,9 +2,12 @@ package com.ljz.passport.browser.validate;
 
 import com.ljz.passport.core.validate.code.ValidateCode;
 import com.ljz.passport.core.validate.code.repository.ValidateCodeRepository;
-import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 李建珍
@@ -12,42 +15,36 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 @Component
 public class SessionValidateCodeRepository implements ValidateCodeRepository {
-
-    /**
-     * 验证码放入session时的前缀
-     */
-    String SESSION_KEY_PREFIX = "SESSION_KEY_FOR_CODE_";
-
-    /**
-     * 操作session的工具类
-     */
-    private SessionStrategy sessionStrategy;
+    @Autowired
+    private RedisTemplate redisCodeTemplate;
 
     @Override
-    public void setValidateCode(ServletWebRequest request, String validateCodeType, ValidateCode code) {
-        sessionStrategy.setAttribute(request, getSessionKey(request, validateCodeType), code);
-    }
-
-    /**
-     * 构建验证码放入session时的key
-     *
-     * @param request
-     * @param validateCodeType
-     * @return
-     */
-    private String getSessionKey(ServletWebRequest request, String validateCodeType) {
-        return SESSION_KEY_PREFIX + validateCodeType.toUpperCase();
+    public void setValidateCode(ServletWebRequest request, String validateKey, ValidateCode validateCode) {
+        //TODO  设置验证码时间和登录验证码时间
+        //设置30分钟的超时时间
+        redisCodeTemplate
+                .opsForValue()
+                .set(buildKey(request, validateKey), validateCode, 10, TimeUnit.MINUTES);
     }
 
     @Override
-    public ValidateCode getValidateCode(ServletWebRequest request, String validateCodeType) {
-        return (ValidateCode) sessionStrategy.getAttribute(request, getSessionKey(request, validateCodeType));
+    public ValidateCode getValidateCode(ServletWebRequest request, String codekey) {
+        Object value = redisCodeTemplate.opsForValue().get(buildKey(request, codekey));
+        if (value == null) {
+            return null;
+        }
+        return (ValidateCode) value;
     }
 
     @Override
-    public void removeValidateCode(ServletWebRequest request, String codeType) {
-        sessionStrategy.removeAttribute(request, getSessionKey(request, codeType));
+    public void removeValidateCode(ServletWebRequest request, String codeKey) {
+        redisCodeTemplate.delete(buildKey(request, codeKey));
     }
 
+    private String buildKey(ServletWebRequest request, String type) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("code:").append(type.toLowerCase()).append(":").append(request.getSessionId());
+        return sb.toString();
+    }
 
 }
