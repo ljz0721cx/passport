@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <version>1.0-SNAPSHOT</version>
     <groupId>com.ljz.passport</groupId>
-    <artifactId>passport-sso-client</artifactId>
+    <artifactId>passport-sso-ui1</artifactId>
     <dependencies>
         <!--安全相关相关的框架包-->
         <dependency>
